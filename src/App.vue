@@ -22,14 +22,22 @@
 </template>
 
 <script>
-// import firebase from 'firebase'
+import firebase from 'firebase'
 import AdminNav from './components/AdminNav.vue'
   export default {
     components: {
       AdminNav
     },
     data: () => ({ drawer: null }),
+    methods: {
+      setVuexUser() {
+        firebase.auth().onAuthStateChanged((user) => {
+          this.$store.dispatch('login', user.email)
+        })
+      }
+    },
     created() {
-  }
+      this.setVuexUser()
+    }
   }
 </script>

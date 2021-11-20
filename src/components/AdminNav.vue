@@ -19,68 +19,34 @@
         <LogoutButton />
       </v-list>
       <v-divider></v-divider>
+
       <v-list>
+      <v-list-group
+        v-for="item in items"
+        :key="item.title"
+        v-model="item.active"
+        :prepend-icon="item.action"
+        no-action
+      >
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </template>
 
-        <v-list-group
-          :value="true"
-          prepend-icon="mdi-account-circle"
+        <v-list-item
+          v-for="child in item.items"
+          :key="child.title"
+          :to="child.link"
         >
-          <template v-slot:activator>
-            <v-list-item-title>Users</v-list-item-title>
-          </template>
+          <v-list-item-content>
+            <v-list-item-title v-text="child.title"></v-list-item-title>
+          </v-list-item-content>
+            <v-icon>{{ child.icon }}</v-icon>
+        </v-list-item>
+      </v-list-group>
+    </v-list>
 
-          <v-list-group
-            :value="true"
-            no-action
-            sub-group
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>Admin</v-list-item-title>
-              </v-list-item-content>
-            </template>
-
-            <v-list-item
-              v-for="item in admins"
-              :key="item"
-              title
-              link
-            >
-              <v-list-item-title v-text="item.title"></v-list-item-title>
-
-              <v-list-item-icon>
-                <v-icon v-text="icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
-              </v-list-item-icon>
-            </v-list-item>
-          </v-list-group>
-
-          <v-list-group
-            no-action
-            sub-group
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>Actions</v-list-item-title>
-              </v-list-item-content>
-            </template>
-
-            <v-list-item
-              v-for="([title, icon], i) in cruds"
-              :key="i"
-              :to="link"
-            >
-              <v-list-item-title v-text="title"></v-list-item-title>
-
-              <v-list-item-icon>
-                <v-icon v-text="icon"></v-icon>
-              </v-list-item-icon>
-            </v-list-item>
-          </v-list-group>
-        </v-list-group>
-      </v-list>
   </v-card>
 </template>
 
@@ -92,10 +58,48 @@
       LogoutButton
     },
     data: () => ({
-      selectedItem: 0,
-      admins: [
-        {title: 'top', icon: 'mdi-home', link: '/'}
-      ]
+      items: [
+        {
+          action: 'mdi-ticket',
+          items: [{ title: 'メニュー',icon:'mdi-silverware-fork-knife', link: '/menu' }],
+          title: 'Attractions',
+        },
+        {
+          action: 'mdi-silverware-fork-knife',
+          active: true,
+          items: [
+            { title: 'Breakfast & brunch' },
+            { title: 'New American' },
+            { title: 'Sushi' },
+          ],
+          title: 'Dining',
+        },
+        {
+          action: 'mdi-school',
+          items: [{ title: 'List Item' }],
+          title: 'Education',
+        },
+        {
+          action: 'mdi-run',
+          items: [{ title: 'List Item' }],
+          title: 'Family',
+        },
+        {
+          action: 'mdi-bottle-tonic-plus',
+          items: [{ title: 'List Item' }],
+          title: 'Health',
+        },
+        {
+          action: 'mdi-content-cut',
+          items: [{ title: 'List Item' }],
+          title: 'Office',
+        },
+        {
+          action: 'mdi-tag',
+          items: [{ title: 'List Item' }],
+          title: 'Promotions',
+        },
+      ],
     }),
     computed: {
       user() {

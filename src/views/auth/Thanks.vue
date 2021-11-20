@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'Done',
+  name: 'Thanks',
   methods: {
     loginPage() {
       this.$router.push('/login')

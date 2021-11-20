@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
   name: 'Login',
   data() {
@@ -66,8 +67,36 @@ export default {
       this.$refs.obs.reset()
     },
     login() {
-      this.$store.dispatch('login', this.email)
-      this.$router.push('/top')
+      if (!this.email || !this.password) {
+        alert('メールアドレスまたはパスワードが入力されていません。')
+        return
+      }
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(() => {
+          this.$store.dispatch('login', this.email)
+          this.$router.push('/top')
+        })
+        .catch((error) => {
+          switch (error.code) {
+            case 'auth/invalid-email':
+              alert('メールアドレスの形式が違います。')
+              break
+            case 'auth/user-disabled':
+              alert('ユーザーが無効になっています。')
+              break
+            case 'auth/user-not-found':
+              alert('ユーザーが存在しません。')
+              break
+            case 'auth/wrong-password':
+              alert('パスワードが間違っております。')
+              break
+            default:
+              alert('エラーが起きました。しばらくしてから再度お試しください。')
+              break
+          }
+        })
     }
   },
 }

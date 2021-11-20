@@ -3,8 +3,11 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Register from '../views/auth/Register.vue'
 import Login from '../views/auth/Login.vue'
-import Done from '../views/auth/Done.vue'
+import Thanks from '../views/auth/Thanks.vue'
 import Top from '../views/Top.vue'
+import Menu from '../views/menu/Menu.vue'
+import Create from '../views/menu/Create.vue'
+import CreatedMenu from '../views/menu/CreatedMenu.vue'
 
 Vue.use(VueRouter)
 
@@ -25,14 +28,29 @@ const routes = [
     component: Login
   },
   {
-    path: '/done',
-    name: 'Done',
-    component: Done
+    path: '/thanks',
+    name: 'Thanks',
+    component: Thanks
   },
   {
     path: '/top',
     name: 'Top',
     component: Top
+  },
+  {
+    path: '/menu',
+    name: 'Menu',
+    component: Menu
+  },
+  {
+    path: '/menu_create',
+    name: 'Create',
+    component: Create
+  },
+  {
+    path: '/created_menu',
+    name: 'CreatedMenu',
+    component: CreatedMenu
   },
 ]
 

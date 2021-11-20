@@ -123,7 +123,7 @@ export default {
             password: this.password,
             role_id: 3
           })
-          this.$router.push('/done')
+          this.$router.push('/thanks')
         })
         .catch((error) => {
           switch (error.code) {
