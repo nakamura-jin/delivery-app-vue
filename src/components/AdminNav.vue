@@ -4,107 +4,133 @@
     width="256"
     tile
   >
-      <v-toolbar style="height: 70px"></v-toolbar>
       <v-list>
-
         <v-list-item link>
-          <v-list-item-content class="text-center">
+          <v-list-item-content>
             <v-list-item-title class="text-h6">
-              {{ user.name }} 様
+              {{user.name}} 様
             </v-list-item-title>
-            <v-list-item-subtitle class="mt-1">{{ user.email }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{user.email}}</v-list-item-subtitle>
           </v-list-item-content>
+
+          <v-list-item-action>
+            <v-icon>mdi-menu-down</v-icon>
+          </v-list-item-action>
         </v-list-item>
-        <!-- <v-btn color="error" style="width: 100%" @login="logout">ログアウト</v-btn> -->
         <LogoutButton />
       </v-list>
       <v-divider></v-divider>
+      <v-list
+        nav
+        dense
+      >
 
-      <v-list>
-      <v-list-group
-        v-for="item in items"
-        :key="item.title"
-        v-model="item.active"
-        :prepend-icon="item.action"
-        no-action
+<!-------------------- お店 -------------------->
+    <v-list-group
+        :value="true"
+        prepend-icon="mdi-glass-mug"
       >
         <template v-slot:activator>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title"></v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-title>お店</v-list-item-title>
         </template>
 
         <v-list-item
-          v-for="child in item.items"
-          :key="child.title"
-          :to="child.link"
+          v-for="(shop, i) in shops"
+          :key="i"
+          link
+          :to="shop.link"
         >
-          <v-list-item-content>
-            <v-list-item-title v-text="child.title"></v-list-item-title>
-          </v-list-item-content>
-            <v-icon>{{ child.icon }}</v-icon>
-        </v-list-item>
-      </v-list-group>
-    </v-list>
 
+        <v-list-item-title v-text="shop.text" class="text-center"></v-list-item-title>
+
+          <v-list-item-icon>
+            <v-icon v-text="shop.icon"></v-icon>
+          </v-list-item-icon>
+
+        </v-list-item>
+    </v-list-group>
+
+<!-------------------- 従業員 -------------------->
+    <v-list-group
+        :value="true"
+        prepend-icon="mdi-card-account-details"
+      >
+        <template v-slot:activator>
+          <v-list-item-title>従業員</v-list-item-title>
+        </template>
+
+        <v-list-item
+          v-for="(member, i) in members"
+          :key="i"
+          link
+          :to="member.link"
+        >
+
+        <v-list-item-title v-text="member.text" class="text-center"></v-list-item-title>
+
+          <v-list-item-icon>
+            <v-icon v-text="member.icon"></v-icon>
+          </v-list-item-icon>
+
+        </v-list-item>
+    </v-list-group>
+
+<!-------------------- ユーザー -------------------->
+    <v-list-group
+      :value="true"
+      prepend-icon="mdi-account-circle"
+    >
+      <template v-slot:activator>
+        <v-list-item-title>ユーザー</v-list-item-title>
+      </template>
+
+      <v-list-item
+        v-for="(user, i) in users"
+        :key="i"
+        link
+        :to="user.link"
+      >
+
+      <v-list-item-title v-text="user.text" class="text-center"></v-list-item-title>
+
+      <v-list-item-icon>
+        <v-icon v-text="user.icon"></v-icon>
+      </v-list-item-icon>
+
+
+      </v-list-item>
+
+    </v-list-group>
+
+    </v-list>
   </v-card>
 </template>
 
 <script>
-  import LogoutButton from './LogoutButton.vue'
+  import LogoutButton from '@/components/LogoutButton.vue'
   export default {
     name: 'AdminNav',
     components: {
       LogoutButton
     },
     data: () => ({
-      items: [
-        {
-          action: 'mdi-ticket',
-          items: [{ title: 'メニュー',icon:'mdi-silverware-fork-knife', link: '/menu' }],
-          title: 'Attractions',
-        },
-        {
-          action: 'mdi-silverware-fork-knife',
-          active: true,
-          items: [
-            { title: 'Breakfast & brunch' },
-            { title: 'New American' },
-            { title: 'Sushi' },
-          ],
-          title: 'Dining',
-        },
-        {
-          action: 'mdi-school',
-          items: [{ title: 'List Item' }],
-          title: 'Education',
-        },
-        {
-          action: 'mdi-run',
-          items: [{ title: 'List Item' }],
-          title: 'Family',
-        },
-        {
-          action: 'mdi-bottle-tonic-plus',
-          items: [{ title: 'List Item' }],
-          title: 'Health',
-        },
-        {
-          action: 'mdi-content-cut',
-          items: [{ title: 'List Item' }],
-          title: 'Office',
-        },
-        {
-          action: 'mdi-tag',
-          items: [{ title: 'List Item' }],
-          title: 'Promotions',
-        },
+      selectedItem: 0,
+      shops: [
+        { text: 'サイト', icon: 'mdi-web', link: '/top' },
+        { text: 'メニュー', icon: 'mdi-silverware-variant', link: '/menu' },
+        { text: 'オーダー', icon: 'mdi-note-edit', link: '/order' },
+      ],
+      members: [
+        { text: '従業員一覧', icon: 'mdi-folder', link: '/admin/member' },
+      ],
+      users: [
+        { text: 'ユーザー一覧', icon: 'mdi-folder-account', link: '/user'},
       ],
     }),
     computed: {
       user() {
         return this.$store.state.user
       }
-    }
+    },
   }
 </script>

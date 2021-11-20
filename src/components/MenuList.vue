@@ -34,35 +34,30 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
-    // data() {
-    //   return {
-    //     menus: [],
-    //   }
-    // },
     computed: {
       menus() {
-        console.log(this.$store.state.menus)
         return this.$store.state.menus
       }
     },
     mounted() {
-      // this.$axios.$get('/api/menu')
-      // .then(res => {
-      //   this.menus = res.data
-      // })
-      this.$store.dispatch('menu')
+      this.$store.dispatch('getMenu')
     },
     methods: {
       menuEdit(id) {
-        this.$router.push('/admin/menu/' + id);
+        this.$router.push({path: '/edit_menu', query: {id: id}});
       },
+      // getMenu(){
+      //   this.$store.dispatch('getMenu')
+      // },
       menuDelete(id) {
         let deleteMenu= confirm('本当に削除してよろしいですか？')
         if(deleteMenu) {
-          this.$axios.$delete('/api/menu/' + id);
+          axios.delete('/api/v1/menu/' + id)
+          this.$store.commit('DELETE_MENU', id)
         }
       }
-    },
+    }
   }
 </script>

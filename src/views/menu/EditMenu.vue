@@ -13,25 +13,27 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-col>
-      <h1 class="text-center text-h5 mb-md-8">メニュー作成</h1>
-    </v-col>
-    <CreateMenu />
+    <v-row>
+      <v-col class="pt-0">
+        <h1 class="pt-0 pb-2 pb-sm-8 text-h5 text-center font-weight-black">メニュー編集</h1>
+        <UpdateMenu />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
-import CreateMenu from '@/components/CreateMenu.vue'
+import UpdateMenu from '@/components/UpdateMenu.vue'
 export default {
-  name: 'Create',
+  name: 'EditMenu',
   components: {
-    CreateMenu
+    UpdateMenu
   },
   methods: {
-    back(){
+    back() {
       this.$router.push('/menu')
     }
-  }
+  },
 }
 </script>
 

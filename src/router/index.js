@@ -8,6 +8,9 @@ import Top from '../views/Top.vue'
 import Menu from '../views/menu/Menu.vue'
 import Create from '../views/menu/Create.vue'
 import CreatedMenu from '../views/menu/CreatedMenu.vue'
+import EditMenu from '../views/menu/EditMenu.vue'
+import UpdatedMenu from '../views/menu/UpdatedMenu.vue'
+import User from '../views/User.vue'
 
 Vue.use(VueRouter)
 
@@ -51,6 +54,22 @@ const routes = [
     path: '/created_menu',
     name: 'CreatedMenu',
     component: CreatedMenu
+  },
+  {
+    path: '/edit_menu',
+    name: 'EditMenu',
+    component: EditMenu,
+    props: true
+  },
+  {
+    path: '/updated_menu',
+    name: 'UpdatedMenu',
+    component: UpdatedMenu
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: User
   },
 ]
 
