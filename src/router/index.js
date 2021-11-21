@@ -10,7 +10,10 @@ import Create from '../views/menu/Create.vue'
 import CreatedMenu from '../views/menu/CreatedMenu.vue'
 import EditMenu from '../views/menu/EditMenu.vue'
 import UpdatedMenu from '../views/menu/UpdatedMenu.vue'
-import User from '../views/User.vue'
+import User from '../views/user/User.vue'
+import EditUser from '../views/user/EditUser.vue'
+import Cart from '../views/cart/Cart.vue'
+import CheckOut from '../views/cart/CheckOut.vue'
 
 Vue.use(VueRouter)
 
@@ -70,6 +73,21 @@ const routes = [
     path: '/user',
     name: 'User',
     component: User
+  },
+  {
+    path: '/edit_user',
+    name: 'EditUser',
+    component: EditUser
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart
+  },
+  {
+    path: '/checkout',
+    name: 'CheckOut',
+    component: CheckOut
   },
 ]
 

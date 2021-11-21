@@ -23,7 +23,7 @@
 
       <!-- メンバー -->
       <div v-if="user.role_id == 3">
-        <!-- <UserNav /> -->
+        <UserNav />
       </div>
 
     </v-navigation-drawer>
@@ -48,8 +48,8 @@
 
       <v-btn icon @click="goToCart">
         <v-icon>mdi-cart</v-icon>
-        <!-- <v-badge offset-y="-2" offset-x="14" :content="cartItemCount" :value="cartItemCount" v-if="cartItemCount > 0">
-        </v-badge> -->
+        <v-badge offset-y="-2" offset-x="14" :content="cartItemCount" :value="cartItemCount" v-if="cartItemCount > 0">
+        </v-badge>
       </v-btn>
 
     </v-app-bar>
@@ -66,11 +66,13 @@
   import firebase from 'firebase'
   import AdminNav from '@/components/AdminNav.vue'
   import AllUserNav from '@/components/AllUserNav.vue'
-  // import { mapGetters } from 'vuex'
+  import UserNav from '@/components/UserNav.vue'
+  import { mapGetters } from 'vuex'
   export default {
     components: {
       AdminNav,
-      AllUserNav
+      AllUserNav,
+      UserNav
     },
     data: () => ({
       drawer: null,
@@ -92,6 +94,7 @@
         firebase.auth().onAuthStateChanged((user) => {
           if(user) {
             this.$store.dispatch('login', user.email)
+            // this.$store.dispatch('getCartItems', { user_id: this.$store.state.user.id});
           }
         })
       }
@@ -104,7 +107,7 @@
         return this.$store.state.user
       },
 
-      // ...mapGetters(['cartItemCount'])
+      ...mapGetters(['cartItemCount'])
     },
     created() {
       this.setVuexUser()

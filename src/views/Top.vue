@@ -59,19 +59,19 @@
             </div>
 
               <!-- <v-spacer></v-spacer> -->
-              <!-- <CardButton
+              <CardButton
                 v-if="user != false "
                 :userId = user.id
                 :Item = item
-                class="ml-4" -->
-              <!-- /> -->
-              <v-btn @click.stop="dialog = true" color="error" class="ml-4"><v-icon small>mdi-cart</v-icon>カートに追加</v-btn>
+                class="ml-4"
+              />
+              <v-btn v-else @click.stop="dialog = true" color="error" class="ml-4"><v-icon small>mdi-cart</v-icon>カートに追加</v-btn>
           </v-col>
         </v-card>
       </v-col>
     </v-row>
       <v-dialog v-model="dialog" max-width="500">
-        <!-- <PromptLogin @closeDialog="dialog = false"/> -->
+        <PromptLogin @closeDialog="dialog = false"/>
       </v-dialog>
   </v-container>
 </template>
@@ -79,10 +79,14 @@
 <script>
   // import firebase from '@/plugins/firebase'
   import SelectQuantity from '@/components/SelectQuantity.vue'
+  import CardButton from '@/components/CardButton.vue'
+  import PromptLogin from '@/components/PromptLogin.vue'
   export default {
     name: 'Top',
     components: {
-      SelectQuantity
+      SelectQuantity,
+      CardButton,
+      PromptLogin
     },
     data(){
       return {
@@ -119,13 +123,13 @@
       menus() {
         return this.$store.state.menus
       },
-      // user() {
-      //   if(JSON.stringify(this.$store.state.user) == []) {
-      //     return false
-      //   }
+      user() {
+        if(JSON.stringify(this.$store.state.user) == []) {
+          return false
+        }
 
-      //   return this.$store.state.user
-      // }
+        return this.$store.state.user
+      }
     },
     // mounted() {
     //   this.$store.dispatch('getMenu');

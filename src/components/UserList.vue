@@ -30,21 +30,18 @@
 
 <script>
   export default {
-    data () {
-      return {
-        users: [],
+    name: 'UserList',
+    computed: {
+      users() {
+        return this.$store.state.user_list
       }
     },
     mounted() {
-      // this.$axios.$get('/api/user_list')
-      // .then((res) => {
-      //   this.users = res.data
-      // })
       this.$store.dispatch('userList')
     },
     methods: {
       userEdit(id) {
-        this.$router.push('/admin/user/' + id)
+        this.$router.push({path: '/edit_user', query: {id: id}})
       }
     },
     filters: {

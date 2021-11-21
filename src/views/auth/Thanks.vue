@@ -14,7 +14,7 @@ export default {
   name: 'Thanks',
   methods: {
     loginPage() {
-      this.$router.push('/login')
+      this.$router.push('/top')
     }
   }
 }
