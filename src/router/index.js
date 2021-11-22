@@ -14,6 +14,7 @@ import User from '../views/user/User.vue'
 import EditUser from '../views/user/EditUser.vue'
 import Cart from '../views/cart/Cart.vue'
 import CheckOut from '../views/cart/CheckOut.vue'
+import Order from '../views/order/Order.vue'
 
 Vue.use(VueRouter)
 
@@ -88,6 +89,11 @@ const routes = [
     path: '/checkout',
     name: 'CheckOut',
     component: CheckOut
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    component: Order
   },
 ]
 

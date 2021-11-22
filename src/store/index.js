@@ -9,7 +9,8 @@ export default new Vuex.Store({
     user: [],
     menus: [],
     user_list: [],
-    cart: []
+    cart: [],
+    order: []
   },
 
   getters: {
@@ -84,6 +85,71 @@ export default new Vuex.Store({
       })
     },
 
+    CHECK_OUT(state, user_id) {
+      state.cart = state.cart.filter(el => {
+        return el.id !== user_id
+      })
+    },
+
+    SET_ORDER(state, data) {
+      let date = new Date();
+      let year = date.getFullYear();
+      let month = ("0" + (date.getMonth() + 1)).slice(-2)
+      let day = ("0" + (date.getDate())).slice(-2)
+      let today = year + '-' + month + '-' + day
+
+
+      state.order = data.filter(item => {
+        return item.display == 1 && item.date == today;
+        // return item.date == today
+      });
+      console.log('hello')
+    },
+
+    SET_EDIT_MENU_LIST(state, setList) {
+      return state.editFoodQuantity = setList
+    },
+
+    CHENGE_COOKED(state, { id, cooked }) {
+      state.order.forEach(el => {
+        if (el.id == id) {
+          el.cooked = cooked
+        }
+      })
+    },
+
+    // DELETE_ORDER_FOOD(state, { data, id, menu_id }) {
+    //   let date = new Date();
+    //   let year = date.getFullYear();
+    //   let month = ("0" + (date.getMonth() + 1)).slice(-2)
+    //   let day = ("0" + (date.getDate())).slice(-2)
+    //   let today = year + '-' + month + '-' + day
+
+    //   let setDate = ''
+    //   data.forEach(item => {
+    //     if(item.id == id) {
+    //       setDate =  item.date
+    //     }
+    //   })
+
+    //   let editOrder = [];
+    //   state.order.forEach(item => {
+    //     if (item.id == id) {
+    //       item.menu_list.forEach(el => {
+    //         if (el.id !== menu_id) {
+    //           editOrder.push(el)
+    //         }
+    //       })
+    //     }
+    //   })
+
+    //   state.order = state.order.forEach(item => {
+    //     if (item.id == id) {
+    //       item.menu_list = editOrder
+    //     }
+    //   })
+    // },
+
   },
 
 
@@ -133,6 +199,59 @@ export default new Vuex.Store({
     async removeCart({ commit }, { cart_id }) {
       commit('REMOVE_FROM_CART', cart_id);
       await axios.delete('/api/v1/cart/' + cart_id)
+    },
+
+    async checkOut({ commit }, { user_id, menu_list, date, time, cart_id }) {
+      await axios.post('/api/v1/' + user_id + '/order', {
+        user_id: user_id,
+        menu_list: menu_list,
+        date: date,
+        time: time
+      })
+      .then(() => {
+        axios.delete('/api/v1/cart/' + cart_id)
+        commit('CHECK_OUT', user_id);
+      })
+    },
+
+    async getOrder({ commit }) {
+      await axios.get('/api/v1/order')
+      .then((res) => {
+        commit('SET_ORDER', res.data.data);
+      })
+    },
+
+    async editShopOrder({ dispatch }, { id, user_id, menu_list, display, date, time }) {
+      await axios.put('/api/v1/order/' + id, {
+        user_id: user_id,
+        menu_list: menu_list,
+        display: display,
+        date: date,
+        time: time
+      })
+      dispatch('getOrder')
+    },
+
+    async cooked({ commit }, {id, cooked}) {
+      await axios.put('/api/v1/order/cooked/' + id,
+        { cooked: cooked }
+      ).then(
+        commit('CHENGE_COOKED', { id, cooked })
+      )
+    },
+
+    async orderMenuListDelete({ dispatch, commit }, { id, menu_id, quantity }) {
+      await axios.put('/api/v1/order/list/' + id, {
+        id: id,
+        menu_id: menu_id,
+        quantity: quantity
+      })
+      this.$axios.$get('/api/v1/order')
+        .then(res => {
+          let data = res.data
+          commit('DELETE_ORDER_FOOD', { data, id, menu_id })
+          dispatch('getOrder')
+      })
     },
   },
   modules: {

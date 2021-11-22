@@ -206,7 +206,7 @@ export default {
     goToCompleted(){
       //日付の型変更
       let date = this.today.split(/年|月|日/)
-      let selectDay = date[0] + '-' + date[1] + '-' + date[2]
+      let selectDay = date[0] + '-' + date[1] + '-' + (date[2])
 
       let menuList = [];
       this.Cart.forEach(item => {
@@ -218,8 +218,9 @@ export default {
         menu_list: menuList,
         date: selectDay,
         time: this.time,
+        cart_id: this.myCart[0].id
       });
-      this.$router.push('/cart/order_completed')
+      this.$router.push('/checkout')
     },
 
     closeConfirm() {

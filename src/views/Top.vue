@@ -86,7 +86,7 @@
     components: {
       SelectQuantity,
       CardButton,
-      PromptLogin
+      PromptLogin,
     },
     data(){
       return {
