@@ -69,7 +69,7 @@
 
 
               <!-- 料理詳細 -->
-              <v-dialog v-model="ditail">
+              <v-dialog v-model="ditail" width="500">
                 <v-simple-table>
                   <thead>
                     <tr>
@@ -82,10 +82,10 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <td v-if="item.cooked == 0" style="color: #555">
+                    <td v-if="item.cooked == 0" style="color: #555" class="text-center">
                       <OrderMenu :Order="item.menu_list" />
                     </td>
-                    <td v-else>
+                    <td v-else class="text-center">
                       <OrderMenu :Order="item.menu_list" />
                     </td>
 
@@ -253,7 +253,7 @@ import DeleteAlert from '@/components/DeleteAlert.vue'
 import OrderCooked from '@/components/OrderCooked.vue'
 import OrderMenu from '@/components/OrderMenu.vue'
 import OrderQuantity from '@/components/OrderQuantity.vue'
-// import ShopEditOrder from '@/components/ShopEditOrder.vue'
+import ShopEditOrder from '@/components/ShopEditOrder.vue'
 import TestPrice from '@/components/TestPrice.vue'
 
 export default {
@@ -263,7 +263,7 @@ export default {
     OrderCooked,
     OrderMenu,
     OrderQuantity,
-    // ShopEditOrder,
+    ShopEditOrder,
     TestPrice,
   },
   data(){

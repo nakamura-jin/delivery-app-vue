@@ -10,7 +10,8 @@ export default new Vuex.Store({
     menus: [],
     user_list: [],
     cart: [],
-    order: []
+    order: [],
+    editFoodQuantity: []
   },
 
   getters: {
@@ -103,7 +104,6 @@ export default new Vuex.Store({
         return item.display == 1 && item.date == today;
         // return item.date == today
       });
-      console.log('hello')
     },
 
     SET_EDIT_MENU_LIST(state, setList) {
@@ -118,37 +118,45 @@ export default new Vuex.Store({
       })
     },
 
-    // DELETE_ORDER_FOOD(state, { data, id, menu_id }) {
-    //   let date = new Date();
-    //   let year = date.getFullYear();
-    //   let month = ("0" + (date.getMonth() + 1)).slice(-2)
-    //   let day = ("0" + (date.getDate())).slice(-2)
-    //   let today = year + '-' + month + '-' + day
+    EDIT_FOOD_QUANTITY(state, data) {
+      state.editFoodQuantity.forEach(item => {
+        if (item.id == data.id) {
+          item.quantity = data.quantity
+        }
+      })
+    },
 
-    //   let setDate = ''
-    //   data.forEach(item => {
-    //     if(item.id == id) {
-    //       setDate =  item.date
-    //     }
-    //   })
+    DELETE_ORDER_FOOD(state, { data, id, menu_id }) {
+      // let date = new Date();
+      // let year = date.getFullYear();
+      // let month = ("0" + (date.getMonth() + 1)).slice(-2)
+      // let day = ("0" + (date.getDate())).slice(-2)
+      // let today = year + '-' + month + '-' + day
 
-    //   let editOrder = [];
-    //   state.order.forEach(item => {
-    //     if (item.id == id) {
-    //       item.menu_list.forEach(el => {
-    //         if (el.id !== menu_id) {
-    //           editOrder.push(el)
-    //         }
-    //       })
-    //     }
-    //   })
+      // let setDate = ''
+      data.forEach(item => {
+        if(item.id == id) {
+          // setDate =  item.date
+        }
+      })
 
-    //   state.order = state.order.forEach(item => {
-    //     if (item.id == id) {
-    //       item.menu_list = editOrder
-    //     }
-    //   })
-    // },
+      let editOrder = [];
+      state.order.forEach(item => {
+        if (item.id == id) {
+          item.menu_list.forEach(el => {
+            if (el.id !== menu_id) {
+              editOrder.push(el)
+            }
+          })
+        }
+      })
+
+      state.order = state.order.forEach(item => {
+        if (item.id == id) {
+          item.menu_list = editOrder
+        }
+      })
+    },
 
   },
 
@@ -246,7 +254,7 @@ export default new Vuex.Store({
         menu_id: menu_id,
         quantity: quantity
       })
-      this.$axios.$get('/api/v1/order')
+      this.axios.get('/api/v1/order')
         .then(res => {
           let data = res.data
           commit('DELETE_ORDER_FOOD', { data, id, menu_id })

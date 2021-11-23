@@ -36,7 +36,7 @@
 
           <v-col class="pl-2">
             <ul v-for="item in editOrder.menu_list" :key="item.id" style="list-style: none" class="pa-0">
-              <li style="font-size: 18px">{{ item.title }}</li>
+              <li style="font-size: 18px">{{ item.name }}</li>
               <div class="d-flex mt-1">
                 <li class="d-flex py-2 ml-auto" style="font-size: 16px;">
                   <EditOrderFoodQuantity :Food="item" @foodQuantity="foodQuantity($event, getData)" style="width: 40px; height:22px; font-size: 14px;" class="mr-2" />
@@ -98,7 +98,7 @@
 
           <v-col class="pl-12">
             <ul v-for="item in editOrder.menu_list" :key="item.id" style="list-style: none" class="d-flex pa-0">
-              <li class="py-2">{{ item.title }}</li>
+              <li class="py-2">{{ item.name }}</li>
               <li class="py-2 ml-6"><EditOrderFoodQuantity :Food="item" @foodQuantity="foodQuantity($event, getData)"/> 個</li>
               <li class="py-2 ml-6" v-if="editOrder.menu_list.length > 1"><v-btn color="error" small @click="foodDelete(editOrder, item)">取消</v-btn></li>
             </ul>
@@ -115,15 +115,16 @@
 </template>
 
 <script>
-import EditOrderFoodQuantity from '../components/EditOrderFoodQuantity'
+import EditOrderFoodQuantity from '@/components/EditOrderFoodQuantity.vue'
 export default {
+  name: 'ShopEditOrder',
   props: {
     Order: Object
   },
-  compornents: {
+  components: {
     EditOrderFoodQuantity
   },
-  data() {
+  data() { 
     return {
       editOrder: this.Order,
       week: [],
@@ -137,7 +138,79 @@ export default {
       editFoodQuantity: []
     }
   },
-  computed: {
+
+
+  mounted() {
+    let date = new Date();
+    // let getTime = ("0" + (date.getHours())).slice(-2) + ':' + ("0" + (date.getMinutes())).slice(-2);
+    let getTime = this.setAlert;
+    // let getTime = '20:50';
+    if(getTime <= '20:30') {
+      for (let i = 0; i < 6; i++) {
+        let today = new Date();
+        today.setDate(date.getDate() + i);
+        // this.week.push(today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日');
+        this.week.push(today.getFullYear() + '年' + ("0" + (today.getMonth() + 1)).slice(-2) + '月' + ("0" + (today.getDate())).slice(-2) + '日');
+      }
+    } else {
+      for (let i = 0; i < 6; i++) {
+        let today = new Date();
+        today.setDate((date.getDate() + 1) + i);
+        this.week.push(today.getFullYear() + '年' + ("0" + (today.getMonth() + 1)).slice(-2)  + '月' + ("0" + (today.getDate())).slice(-2) + '日');
+      }
+    }
+
+  },
+  methods: {
+    // foodQuantity(getData) {
+    //   console.log(getData)
+    // },
+    shopEditOrder(){
+      //日付の型変更
+      let date = this.today.split(/年|月|日/)
+      let selectDay = date[0] + '-' + ("0" + (date[1])).slice(-2) + '-' + ("0" + (date[2])).slice(-2)
+
+      if(this.today === this.Order.date) {
+        this.today = this.Order.date
+      } else {
+        this.today = selectDay
+      }
+
+      // 数量変更
+      let menuList = [];
+      this.$store.state.editFoodQuantity.forEach(item => {
+        menuList.push({id: item.id, quantity: item.quantity})
+      });
+
+
+
+      this.$store.dispatch('editShopOrder', {
+        id: this.Order.id,
+        user_id: this.Order.user_id,
+        menu_list: menuList,
+        display: 1,
+        date: this.today,
+        time: this.time,
+      })
+      this.$router.push('/order/updated_order')
+      this.$emit('updateOrder')
+    },
+
+    closeEditOrder() {
+      this.$emit('closeEditOrder')
+    },
+
+    foodDelete(editOrder, item) {
+      let orderDelete = confirm('削除してもよろしいですか？')
+      if(orderDelete) {
+        this.$store.dispatch('orderMenuListDelete', {
+          id: editOrder.id,
+          menu_id: item.id,
+          quantity: item.quantity
+        })
+        this.$emit('shopEditOrder')
+      }
+    },
     setTime() {
       let date = new Date()
       this.setAlert = ("0" + (date.getHours())).slice(-2) + ':' + ("0" + (date.getMinutes())).slice(-2) + ':00';
@@ -227,83 +300,11 @@ export default {
       } else {
         this.selectTime = ['本日の受付は終了しました']
       }
-      // return
     }
   },
-
-
-  mounted() {
-    let date = new Date();
-    // let getTime = ("0" + (date.getHours())).slice(-2) + ':' + ("0" + (date.getMinutes())).slice(-2);
-    let getTime = this.setAlert;
-    // let getTime = '20:50';
-    if(getTime <= '20:30') {
-      for (let i = 0; i < 6; i++) {
-        let today = new Date();
-        today.setDate(date.getDate() + i);
-        // this.week.push(today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日');
-        this.week.push(today.getFullYear() + '年' + ("0" + (today.getMonth() + 1)).slice(-2) + '月' + ("0" + (today.getDate())).slice(-2) + '日');
-      }
-    } else {
-      for (let i = 0; i < 6; i++) {
-        let today = new Date();
-        today.setDate((date.getDate() + 1) + i);
-        this.week.push(today.getFullYear() + '年' + ("0" + (today.getMonth() + 1)).slice(-2)  + '月' + ("0" + (today.getDate())).slice(-2) + '日');
-      }
-    }
-
-  },
-  methods: {
-    // foodQuantity(getData) {
-    //   console.log(getData)
-    // },
-    shopEditOrder(){
-      //日付の型変更
-      let date = this.today.split(/年|月|日/)
-      let selectDay = date[0] + '-' + ("0" + (date[1])).slice(-2) + '-' + ("0" + (date[2])).slice(-2)
-
-      if(this.today === this.Order.date) {
-        this.today = this.Order.date
-      } else {
-        this.today = selectDay
-      }
-
-      // 数量変更
-      let menuList = [];
-      this.$store.state.editFoodQuantity.forEach(item => {
-        menuList.push({id: item.id, quantity: item.quantity})
-      });
-
-
-
-      this.$store.dispatch('editShopOrder', {
-        id: this.Order.id,
-        user_id: this.Order.user_id,
-        menu_list: menuList,
-        display: 1,
-        date: this.today,
-        time: this.time,
-      })
-      this.$router.push('/order/updated_order')
-      this.$emit('updateOrder')
-    },
-
-    closeEditOrder() {
-      this.$emit('closeEditOrder')
-    },
-
-    foodDelete(editOrder, item) {
-      let orderDelete = confirm('削除してもよろしいですか？')
-      if(orderDelete) {
-        this.$store.dispatch('orderMenuListDelete', {
-          id: editOrder.id,
-          menu_id: item.id,
-          quantity: item.quantity
-        })
-        this.$emit('shopEditOrder')
-      }
-    }
-  },
+  created() {
+    this.setTime();
+  }
 }
 </script>
 
