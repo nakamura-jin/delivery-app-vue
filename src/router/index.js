@@ -15,6 +15,7 @@ import EditUser from '../views/user/EditUser.vue'
 import Cart from '../views/cart/Cart.vue'
 import CheckOut from '../views/cart/CheckOut.vue'
 import Order from '../views/order/Order.vue'
+import UpdatedOrder from '../views/order/UpdatedOrder.vue'
 
 Vue.use(VueRouter)
 
@@ -94,6 +95,11 @@ const routes = [
     path: '/order',
     name: 'Order',
     component: Order
+  },
+  {
+    path: '/updated_order',
+    name: 'UpdatedOrder',
+    component: UpdatedOrder
   },
 ]
 

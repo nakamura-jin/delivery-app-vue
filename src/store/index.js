@@ -110,7 +110,7 @@ export default new Vuex.Store({
       return state.editFoodQuantity = setList
     },
 
-    CHENGE_COOKED(state, { id, cooked }) {
+    CHANGE_COOKED(state, { id, cooked }) {
       state.order.forEach(el => {
         if (el.id == id) {
           el.cooked = cooked
@@ -157,7 +157,6 @@ export default new Vuex.Store({
         }
       })
     },
-
   },
 
 
@@ -244,7 +243,7 @@ export default new Vuex.Store({
       await axios.put('/api/v1/order/cooked/' + id,
         { cooked: cooked }
       ).then(
-        commit('CHENGE_COOKED', { id, cooked })
+        commit('CHANGE_COOKED', { id, cooked })
       )
     },
 

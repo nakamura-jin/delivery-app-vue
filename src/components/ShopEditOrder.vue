@@ -192,7 +192,7 @@ export default {
         date: this.today,
         time: this.time,
       })
-      this.$router.push('/order/updated_order')
+      this.$router.push('/updated_order')
       this.$emit('updateOrder')
     },
 
