@@ -11,6 +11,7 @@ export default {
       firebase.auth().signOut()
       .then(() => {
         this.$store.commit('LOGOUT')
+        this.$router.push('/')
       })
     }
   }

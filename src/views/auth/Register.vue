@@ -1,7 +1,8 @@
 <template>
-  <v-container fill-height fluid>
+  <v-container>
+    <BackButton />
     <v-row>
-      <v-col md="6" class="mx-md-auto">
+      <v-col md="6" class="display_center">
         <h1 class="my-6 text-center">会員登録</h1>
         <div class="mt-md-12">
           <validation-observer ref="obs" v-slot="ObserverProps">
@@ -88,8 +89,12 @@
 <script>
 import firebase from 'firebase'
 import axios from 'axios'
+import BackButton from '@/components/BackButton.vue'
 export default {
   name: 'Register',
+  components: {
+    BackButton
+  },
   data() {
     return {
       name: '',
@@ -116,12 +121,13 @@ export default {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
-        .then(() => {
+        .then((user) => {
           axios.post('/api/v1/register', {
             name: this.name,
             email : this.email,
             password: this.password,
-            role_id: 3
+            role_id: 3,
+            uid: user.user.uid
           })
           this.$router.push('/thanks')
         })

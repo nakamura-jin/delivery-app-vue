@@ -1,8 +1,9 @@
 <template>
-  <v-container fill-height fluid>
+  <v-container >
+    <BackButton />
     <v-row>
-      <v-col md="6" class="mx-auto">
-        <h1 class="mb-6 text-center">ログイン</h1>
+      <v-col md="6" class="display_center">
+        <h1 class="my-6 text-center">ログイン</h1>
         <validation-observer ref="obs" v-slot="ObserverProps">
 
             <!-- メールアドレス -->
@@ -44,20 +45,49 @@
             <v-btn color="error" @click="login" class="ml-6" :disabled="ObserverProps.invalid || !ObserverProps.validated">ログイン</v-btn>
           </v-col>
         </validation-observer>
+        <p class="text-center mt-8">パスワードをお忘れの方は<router-link to="password_reset">こちら</router-link></p>
       </v-col>
     </v-row>
+
+    <v-dialog v-model="loading">
+      <v-overlay :opacity="opacity">
+        <v-progress-circular
+          :rotate="-90"
+          :size="100"
+          :width="15"
+          :value="value"
+          color="error"
+        >
+          {{ value }}
+        </v-progress-circular>
+        <!-- <v-progress-circular
+          indeterminate
+          color="error">
+
+        </v-progress-circular> -->
+      </v-overlay>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import firebase from 'firebase'
+import BackButton from '@/components/BackButton.vue'
 export default {
   name: 'Login',
+  components: {
+    BackButton
+  },
   data() {
     return {
       email: '',
       password: '',
-      show1: false
+      show1: false,
+
+      loading: false,
+      interval: {},
+      value: 0,
+      opacity: 1
     }
   },
   methods: {
@@ -72,31 +102,36 @@ export default {
         return
       }
       firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          this.$store.dispatch('login', this.email)
-          this.$router.push('/top')
-        })
-        .catch((error) => {
-          switch (error.code) {
-            case 'auth/invalid-email':
-              alert('メールアドレスの形式が違います。')
-              break
-            case 'auth/user-disabled':
-              alert('ユーザーが無効になっています。')
-              break
-            case 'auth/user-not-found':
-              alert('ユーザーが存在しません。')
-              break
-            case 'auth/wrong-password':
-              alert('パスワードが間違っております。')
-              break
-            default:
-              alert('エラーが起きました。しばらくしてから再度お試しください。')
-              break
+      .auth()
+      .signInWithEmailAndPassword(this.email, this.password)
+      .then(() => {
+        this.interval = setInterval(() => {
+          this.loading = true
+          if (this.value === 100) {
+            this.$router.push('/top')
           }
-        })
+          this.value += 10
+        }, 500)
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case 'auth/invalid-email':
+            alert('メールアドレスの形式が違います。')
+            break
+          case 'auth/user-disabled':
+            alert('ユーザーが無効になっています。')
+            break
+          case 'auth/user-not-found':
+            alert('ユーザーが存在しません。')
+            break
+          case 'auth/wrong-password':
+            alert('パスワードが間違っております。')
+            break
+          default:
+            alert('エラーが起きました。しばらくしてから再度お試しください。')
+            break
+        }
+      })
     }
   },
 }

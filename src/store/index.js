@@ -8,10 +8,11 @@ export default new Vuex.Store({
   state: {
     user: [],
     menus: [],
-    user_list: [],
     cart: [],
     order: [],
-    editFoodQuantity: []
+    quantity: [],
+    editFoodQuantity: [],
+    myOrder: []
   },
 
   getters: {
@@ -27,7 +28,7 @@ export default new Vuex.Store({
       });
 
       return total * 1.1
-    }
+    },
   },
 
   mutations: {
@@ -40,24 +41,23 @@ export default new Vuex.Store({
     SET_MENU(state, data) {
       state.menus = data;
     },
-    SELECT_MENU(state, tag) {
-      state.menus = tag;
-    },
+
     SELECT_QUANTITY(state, data) {
-      state.menus.forEach(el => {
-        if (el.id === data.id) {
-          el.quantity = data.quantity
-        }
-      })
+      // state.menus.forEach(el => {
+      //   if (el.id == data.id) {
+      //     el.quantity = data.quantity
+      //   }
+      // })
+      state.quantity.push(data)
+      console.log(state.quantity)
     },
+
     DELETE_MENU(state, id) {
       state.menus = state.menus.filter(item => {
         return item.id !== id
       })
     },
-    USER_LIST(state, data) {
-      return state.user_list = data;
-    },
+
 
     SET_CART(state, cartItem) {
       state.cart = cartItem;
@@ -86,10 +86,9 @@ export default new Vuex.Store({
       })
     },
 
-    CHECK_OUT(state, user_id) {
-      state.cart = state.cart.filter(el => {
-        return el.id !== user_id
-      })
+    CHECK_OUT(state) {
+      state.cart = [];
+      state.quantity = []
     },
 
     SET_ORDER(state, data) {
@@ -157,19 +156,24 @@ export default new Vuex.Store({
         }
       })
     },
+
+    GET_MY_ORDER(state, data) {
+      state.myOrder = data
+    }
   },
 
 
   actions: {
-    async login({ dispatch, commit }, email) {
+    async login({ dispatch, commit }, uid ) {
       await axios.post('/api/v1/login', {
-        email: email,
+        uid: uid,
       })
       .then((res) => {
         commit('SET_USER', res.data.data)
       })
         .then(() => {
         dispatch('getCartItems', { user_id: this.state.user.id})
+        dispatch('getMyOrder', { user_id: this.state.user.id})
       })
     },
 
@@ -180,12 +184,6 @@ export default new Vuex.Store({
       })
     },
 
-    async userList({ commit }) {
-      await axios.get('/api/v1/user_list')
-      .then(res => {
-        commit('USER_LIST', res.data.data)
-      })
-    },
 
     async getCartItems({ commit }, {user_id}) {
       await axios.get('/api/v1/' + user_id + '/cart')
@@ -208,7 +206,7 @@ export default new Vuex.Store({
       await axios.delete('/api/v1/cart/' + cart_id)
     },
 
-    async checkOut({ commit }, { user_id, menu_list, date, time, cart_id }) {
+    async checkOut({ commit }, { user_id, menu_list, date, time }) {
       await axios.post('/api/v1/' + user_id + '/order', {
         user_id: user_id,
         menu_list: menu_list,
@@ -216,8 +214,8 @@ export default new Vuex.Store({
         time: time
       })
       .then(() => {
-        axios.delete('/api/v1/cart/' + cart_id)
-        commit('CHECK_OUT', user_id);
+        axios.delete('/api/v1/cart/user/' + user_id)
+        commit('CHECK_OUT');
       })
     },
 
@@ -260,6 +258,13 @@ export default new Vuex.Store({
           dispatch('getOrder')
       })
     },
+
+    async getMyOrder({ commit }, { user_id }) {
+      await axios.get('/api/v1/order/user/' + user_id)
+        .then(res => {
+        commit('GET_MY_ORDER', res.data.data)
+      })
+    }
   },
   modules: {
   }

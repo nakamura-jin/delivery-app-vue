@@ -218,7 +218,7 @@ export default {
         menu_list: menuList,
         date: selectDay,
         time: this.time,
-        cart_id: this.myCart[0].id
+        // cart_id: this.myCart[0].id
       });
       this.$router.push('/checkout')
     },

@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="top">
       <v-col class="text-center">
-        <h1>Delivery app</h1>
+        <h1>TakeOut app</h1>
         <v-col class="mt-6">
           <v-btn color="error" @click="registerPage">新規登録</v-btn>
           <v-btn color="error" class="ml-6" @click="loginPage">ログイン</v-btn>

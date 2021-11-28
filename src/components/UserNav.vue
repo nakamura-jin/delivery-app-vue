@@ -35,11 +35,11 @@
           :to="shop.link"
         >
 
-        <v-list-item-title v-text="shop.text" class="text-center"></v-list-item-title>
-
-          <v-list-item-icon>
+          <v-list-item-icon class="mr-0">
             <v-icon v-text="shop.icon"></v-icon>
           </v-list-item-icon>
+
+          <v-list-item-title v-text="shop.text" class="text-center"></v-list-item-title>
 
         </v-list-item>
 
@@ -59,7 +59,8 @@
       selectedItem: 0,
       shops: [
         { text: 'サイト', icon: 'mdi-web', link: '/top' },
-        { text: '購入履歴', icon: 'mdi-note'},
+        { text: '設定', icon: 'mdi-cog', link: '/setting' },
+        { text: '購入履歴', icon: 'mdi-note', link: '/buying_history'},
         { text: '退会', icon: 'mdi-logout' },
       ],
     }),

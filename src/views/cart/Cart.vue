@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       option: [
-        1, 2, 3, 4
+        1, 2, 3, 4, 5
       ],
       confirm: false
     }

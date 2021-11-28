@@ -26,13 +26,13 @@
       >
 
 <!-------------------- お店 -------------------->
-    <v-list-group
+    <!-- <v-list-group
         :value="true"
         prepend-icon="mdi-glass-mug"
-      >
-        <template v-slot:activator>
+      > -->
+        <!-- <template v-slot:activator>
           <v-list-item-title>お店</v-list-item-title>
-        </template>
+        </template> -->
 
         <v-list-item
           v-for="(shop, i) in shops"
@@ -48,10 +48,10 @@
           </v-list-item-icon>
 
         </v-list-item>
-    </v-list-group>
+    <!-- </v-list-group> -->
 
 <!-------------------- 従業員 -------------------->
-    <v-list-group
+    <!-- <v-list-group
         :value="true"
         prepend-icon="mdi-card-account-details"
       >
@@ -73,10 +73,10 @@
           </v-list-item-icon>
 
         </v-list-item>
-    </v-list-group>
+    </v-list-group> -->
 
 <!-------------------- ユーザー -------------------->
-    <v-list-group
+    <!-- <v-list-group
       :value="true"
       prepend-icon="mdi-account-circle"
     >
@@ -100,7 +100,7 @@
 
       </v-list-item>
 
-    </v-list-group>
+    </v-list-group> -->
 
     </v-list>
   </v-card>
@@ -119,12 +119,13 @@
         { text: 'サイト', icon: 'mdi-web', link: '/top' },
         { text: 'メニュー', icon: 'mdi-silverware-variant', link: '/menu' },
         { text: 'オーダー', icon: 'mdi-note-edit', link: '/order' },
+        { text: 'ユーザー一覧', icon: 'mdi-folder-account', link: '/user'},
       ],
       members: [
         { text: '従業員一覧', icon: 'mdi-folder', link: '/admin/member' },
       ],
       users: [
-        { text: 'ユーザー一覧', icon: 'mdi-folder-account', link: '/user'},
+        
       ],
     }),
     computed: {

@@ -2,30 +2,32 @@
   <v-container>
     <v-row v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm">
       <v-tabs show-arrows fixed-tabs align-with-title>
-        <v-tab class="text-caption" @click="selectMenu(0)">全料理</v-tab>
-        <v-tab class="text-caption" @click="selectMenu(1)">肉料理</v-tab>
-        <v-tab class="text-caption" @click="selectMenu(2)">揚げ物</v-tab>
-        <v-tab class="text-caption" @click="selectMenu(3)">野菜料理</v-tab>
-        <v-tab class="text-caption" @click="selectMenu(4)">定番<br>おつまみ</v-tab>
-        <v-tab class="text-caption" @click="selectMenu(5)">ご飯もの</v-tab>
+        <v-tab class="text-caption">全料理</v-tab>
+        <v-tab class="text-caption">肉料理</v-tab>
+        <v-tab class="text-caption">揚げ物</v-tab>
+        <v-tab class="text-caption">野菜料理</v-tab>
+        <v-tab class="text-caption">定番<br>おつまみ</v-tab>
+        <v-tab class="text-caption">ご飯もの</v-tab>
       </v-tabs>
     </v-row>
 
     <!-- <v-row>
       <v-col>
-      <div class="fade">
-        <v-img v-if="show" src="https://test-izakaya.s3.ap-northeast-1.amazonaws.com/E6Zq1OVCPVPxYtF7BoV4jU5eVpJVbnOr7v2vEr5J.jpg" width="100%" height="200%"></v-img>
-        <h1 class="text-center text-md-h3">テスト 居酒屋<br>〜TAKE OUT〜</h1>
-      </div>
-      <div class="my-8 text-center">
-        <h2 class="text-md-h4 text-h5">メニュー</h2>
-      </div>
-    </v-col>
+        <v-col cols="6" md="6" class="ml-auto mr-4">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-col>
+      </v-col>
     </v-row> -->
 
     <v-row>
-      <v-col class="pa-2 pa-0 px-md-8 d-sm-flex flex-wrap">
-        <v-card v-for="item in menus" :key="item.id" class="ma-3" max-width="340px">
+      <v-col class="pa-2 pa-0 px-md-8 d-sm-flex flex-wrap" name="fade">
+        <v-card v-for="item in filteredmenus" :key="item.id" class="ma-3" max-width="340px">
           <v-col class="mx-auto">
             <v-img :src="item.image" height="160">
               <template v-slot:placeholder>
@@ -81,6 +83,7 @@
   import SelectQuantity from '@/components/SelectQuantity.vue'
   import CardButton from '@/components/CardButton.vue'
   import PromptLogin from '@/components/PromptLogin.vue'
+  import axios from 'axios'
   export default {
     name: 'Top',
     components: {
@@ -95,7 +98,9 @@
         dialog: false,
         alert: true,
         selectTag: '',
-        show: true
+        show: true,
+        menus: [],
+        search: ''
       }
     },
     methods: {
@@ -106,22 +111,30 @@
         }
         this.$store.commit('SELECT_QUANTITY', data);
       },
-      getMenu(){
-        this.$store.dispatch('getMenu');
+      async getMenu(){
+        await axios.get('/api/v1/menu')
+        .then(res => {
+          this.menus = res.data.data
+        })
+        // this.$store.dispatch('getMenu')
       }
-      // selectMenu(tag) {
-      //   if(tag != 0) {
-      //     this.$store.dispatch('selectMenu', tag)
-      //     // this.$store.dispatch('selectMenu', tag)
-      //     console.log(tag)
-      //   } else {
-      //     this.$store.dispatch('getMenu');
-      //   }
-      // }
     },
     computed: {
-      menus() {
-        return this.$store.state.menus
+      filteredmenus() {
+        let setMenus = [];
+        if (this.menus !== "" ) {
+          for (const i in this.menus) {
+            const list = this.menus[i];
+            if (
+              list.name.indexOf(this.search) !== -1
+              ||
+              list.discription.indexOf(this.search) !== -1) {
+            setMenus.push(list);
+            }
+          }
+          return setMenus;
+        }
+        return this.menus;
       },
       user() {
         if(JSON.stringify(this.$store.state.user) == []) {
@@ -151,16 +164,5 @@
 </script>
 
 <style>
-.fade {
-  position: relative;
-}
-
-.fade h1 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-weight: bold;
-}
 
 </style>

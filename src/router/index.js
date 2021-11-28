@@ -16,6 +16,10 @@ import Cart from '../views/cart/Cart.vue'
 import CheckOut from '../views/cart/CheckOut.vue'
 import Order from '../views/order/Order.vue'
 import UpdatedOrder from '../views/order/UpdatedOrder.vue'
+import PasswordReset from '../views/auth/PasswordReset.vue'
+import SendPasswordResetMail from '../views/auth/SendPasswordResetMail.vue'
+import Setting from '../views/user/Setting.vue'
+import BuyingHistory from '../views/user/BuyingHistory.vue'
 
 Vue.use(VueRouter)
 
@@ -100,6 +104,26 @@ const routes = [
     path: '/updated_order',
     name: 'UpdatedOrder',
     component: UpdatedOrder
+  },
+  {
+    path: '/password_reset',
+    name: 'PasswordReset',
+    component: PasswordReset
+  },
+  {
+    path: '/send_mail',
+    name: 'SendPasswordResetMail',
+    component: SendPasswordResetMail
+  },
+  {
+    path: '/setting',
+    name: 'Setting',
+    component: Setting
+  },
+  {
+    path: '/buying_history',
+    name: 'BuyingHistory',
+    component: BuyingHistory
   },
 ]
 

@@ -1,14 +1,21 @@
 <template>
-  <v-row class="text-center">
-    <v-col class="editForm" md="6">
-      <p>{{ editUser.name }}</p>
-      <v-col class="d-flex flex-column">
-        <v-btn v-model="role" @click="changeRole(1)" height="100">admin</v-btn>
-        <v-btn v-model="role" @click="changeRole(2)">staff</v-btn>
-        <v-btn v-model="role" @click="changeRole(3)">user</v-btn>
+  <v-container>
+    <v-row class="text-center">
+      <v-col class="editForm">
+        <h1>ユーザー情報編集</h1>
+        <v-simple-table>
+          <tr>
+            <th>user name</th>
+            <td>{{ editUser.name }}</td>
+          </tr>
+          <tr>
+            <th>user email</th>
+            <td>{{ editUser.email }}</td>
+          </tr>
+        </v-simple-table>
       </v-col>
-    </v-col>
-  </v-row>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -18,7 +25,7 @@ export default {
     return {
       id: this.$route.query.id,
       editUser: [],
-      role: ''
+      role: '',
     }
   },
   name: 'EditUser',
@@ -30,9 +37,9 @@ export default {
   },
   methods: {
     changeRole() {
-      
+
     }
-  }
+  },
 }
 </script>
 

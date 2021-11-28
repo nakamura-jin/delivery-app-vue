@@ -45,7 +45,7 @@
     data: () => ({
       selectedItem: 0,
       items: [
-        { text: 'ホーム', icon: 'mdi-home', link: '/top' },
+        // { text: 'ホーム', icon: 'mdi-home', link: '/top' },
         { text: 'ユーザー登録', icon: 'mdi-account-plus', link: '/register' },
         { text: 'ログイン', icon: 'mdi-account', link: '/login' },
       ],

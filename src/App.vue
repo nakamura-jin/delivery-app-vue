@@ -34,7 +34,7 @@
       <v-toolbar-title>Application</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-row v-if="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm">
+      <!-- <v-row v-if="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm && this.$store.state.user != null">
         <v-tabs show-arrows fixed-tabs color="black">
           <v-tab class="text-subtitle-2 font-weight-bold error" @click="selectMenu(0)">全ての料理</v-tab>
           <v-tab class="text-subtitle-2 font-weight-bold error" @click="selectMenu(1)">肉料理</v-tab>
@@ -43,8 +43,8 @@
           <v-tab class="text-subtitle-2 font-weight-bold error" @click="selectMenu(4)">定番おつまみ</v-tab>
           <v-tab class="text-subtitle-2 font-weight-bold error" @click="selectMenu(5)">ごはんもの</v-tab>
         </v-tabs>
-      </v-row>
-      <v-spacer></v-spacer>
+      </v-row> -->
+      <!-- <v-spacer></v-spacer> -->
 
       <v-btn icon @click="goToCart">
         <v-icon>mdi-cart</v-icon>
@@ -75,9 +75,10 @@
       UserNav
     },
     data: () => ({
-      drawer: null,
+      drawer: false,
       base: false,
       selected: 1,
+      search: ''
     }),
     methods: {
       goToCart() {
@@ -93,11 +94,10 @@
       setVuexUser() {
         firebase.auth().onAuthStateChanged((user) => {
           if(user) {
-            this.$store.dispatch('login', user.email)
-            // this.$store.dispatch('getCartItems', { user_id: this.$store.state.user.id});
+            this.$store.dispatch('login', user.uid)
           }
         })
-      }
+      },
     },
     computed: {
       user() {
@@ -111,7 +111,15 @@
     },
     created() {
       this.setVuexUser()
-    }
+    },
   }
 </script>
 
+<style>
+  .display_center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>

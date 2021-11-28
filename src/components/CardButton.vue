@@ -13,19 +13,30 @@ export default {
   },
   data() {
     return {
-      user: this.$store.state.user
+      user: this.$store.state.user,
+      quantity: 1
     }
   },
   methods: {
     addToCart() {
-      if(this.Item.quantity == undefined) {
-        this.Item.quantity = 1
-      }
+      // if(this.Item.quantity == undefined) {
+      //   this.Item.quantity = 1
+      // }
+      // this.$store.dispatch('addMenuToCart', {
+      //   user_id: this.userId,
+      //   menu_id: this.Item.id,
+      //   quantity: this.quantity,
+      // })
+      this.$store.state.quantity.forEach(el => {
+        if(this.Item.id == el.id) {
+          this.quantity = el.quantity
+        }
+      })
+
       this.$store.dispatch('addMenuToCart', {
         user_id: this.userId,
         menu_id: this.Item.id,
-        quantity: this.Item.quantity,
-        title: this.Item.title
+        quantity: this.quantity,
       })
     },
   },
