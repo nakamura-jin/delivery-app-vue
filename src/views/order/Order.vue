@@ -35,15 +35,18 @@
                     詳細
                   </th>
                   <th class="text-center">
+                    決済
+                  </th>
+                  <th class="text-center">
                     削除
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr
-                  v-for="item in order"
-                  :key="item.id"
-                >
+
+              <tbody
+                v-for="item in order"
+                :key="item.id">
+                <tr>
                   <!-- 調理状況 -->
                   <td class="text-center">
                     <OrderCooked :order="item" />
@@ -113,11 +116,14 @@
 
                   <!-- 編集 -->
                   <td class="text-center"><v-btn icon color="success" style="width: 30px;" :disabled="item.cooked == 0" @click="shopOrderEdit(item)"><v-icon class="text-subtitle-2 text-md-h6">mdi-file-find</v-icon></v-btn></td>
+                  <!-- 決済 -->
+                  <td class="text-center"><v-btn icon color="primary" style="width: 30px;" :disabled="item.cooked == 0" @click="cashRegister(item)"><v-icon class="text-subtitle-2 text-md-h6">mdi-cash-register</v-icon></v-btn></td>
                   <!-- 削除 -->
                   <td class="text-center"><v-btn icon color="error" style="width: 30px;" @click="shopOrderDelete(item)"><v-icon class="text-subtitle-2 text-md-h6">mdi-delete</v-icon></v-btn></td>
                 </tr>
 
 
+                <!-- 編集モーダル -->
                 <v-dialog v-model="editOrder" max-width="500">
                   <ShopEditOrder
                     :Order="editOrderMenu"
@@ -126,6 +132,26 @@
                     @updateOrder="editOrder= false"
                     @shopEditOrder="editOrder = false, alert = false" />
                 </v-dialog>
+
+                <!-- 決済モーダル -->
+                  <v-dialog v-model="cash" width="300">
+                    <template>
+                      <v-card>
+                        <v-card-text class="text-center text-h6 py-4 font-weight-bold">決済しますか？</v-card-text>
+                        <v-col>
+                          <v-card-text class="py-0 text-caption">お客様名</v-card-text>
+                          <v-card-text class="text-center text-subtitle-1">{{ item.user_name }}</v-card-text>
+                          <v-card-text class="py-0 text-caption">合計金額</v-card-text>
+                          <v-card-text class="text-center text-subtitle-1">￥ {{ totalPrice | priceLocaleString }}</v-card-text>
+                        </v-col>
+
+                        <v-col class="text-right">
+                          <v-btn @click="cash = false" class="font-weight-bold" color="error">戻る</v-btn>
+                          <v-btn class="ml-6 font-weight-bold" color="primary">決済</v-btn>
+                        </v-col>
+                      </v-card>
+                    </template>
+                  </v-dialog>
               </tbody>
             </template>
           </v-simple-table>
@@ -169,15 +195,18 @@
                     編集
                   </th>
                   <th class="text-center" width="6%">
+                    決済
+                  </th>
+                  <th class="text-center" width="6%">
                     削除
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr
-                  v-for="item in order"
-                  :key="item.id"
-                >
+              <tbody
+                v-for="item in order"
+                :key="item.id"
+              >
+                <tr>
                   <!-- 調理状況 -->
                   <td class="text-center">
                     <OrderCooked :order="item" />
@@ -225,21 +254,47 @@
 
                   <!-- 編集 -->
                   <td class="text-center"><v-btn icon color="success" :disabled="item.cooked == 0" @click="shopOrderEdit(item)"><v-icon class="text-caption text-md-h6">mdi-pencil</v-icon></v-btn></td>
+                  <!-- 決済 -->
+                  <td class="text-center"><v-btn icon color="primary" :disabled="item.cooked == 0" @click="cashRegister(item)"><v-icon class="text-caption text-md-h6">mdi-cash-register</v-icon></v-btn></td>
                   <!-- 削除 -->
                   <td class="text-center"><v-btn icon color="error" @click="shopOrderDelete(item)"><v-icon class="text-caption text-md-h6">mdi-delete</v-icon></v-btn></td>
                 </tr>
+
+
+                  <!-- 編集モーダル -->
+                  <v-dialog v-model="editOrder" max-width="500">
+                    <ShopEditOrder
+                      :Order="editOrderMenu"
+                      v-if="editOrder"
+                      @closeEditOrder="editOrder = false"
+                      @updateOrder="editOrder= false"
+                      @shopEditOrder="editOrder = false, alert = false" />
+                  </v-dialog>
+
+                  <!-- 決済モーダル -->
+                  <v-dialog v-model="cash" width="300">
+                    <template>
+                      <v-card>
+                        <v-card-text class="text-center text-h6 py-4 font-weight-bold">決済しますか？</v-card-text>
+                        <v-col>
+                          <v-card-text class="py-0">お客様名</v-card-text>
+                          <v-card-text class="text-center text-subtitle-1 font-weight-bold">{{ item.user_name }}</v-card-text>
+                          <v-card-text class="py-0">合計金額</v-card-text>
+                          <v-card-text class="text-center text-subtitle-1 font-weight-bold">￥ {{ totalPrice | priceLocaleString }}</v-card-text>
+                        </v-col>
+
+                        <v-col class="text-right">
+                          <v-btn @click="cash = false" class="font-weight-bold" color="error">戻る</v-btn>
+                          <v-btn class="ml-6 font-weight-bold" color="primary">決済</v-btn>
+                        </v-col>
+                      </v-card>
+                    </template>
+                  </v-dialog>
+
               </tbody>
             </template>
           </v-simple-table>
 
-          <v-dialog v-model="editOrder" max-width="500">
-            <ShopEditOrder
-              :Order="editOrderMenu"
-              v-if="editOrder"
-              @closeEditOrder="editOrder = false"
-              @updateOrder="editOrder= false"
-              @shopEditOrder="editOrder = false, alert = false" />
-          </v-dialog>
         </div>
 
 
@@ -276,10 +331,11 @@ export default {
   data(){
     return {
       editOrder: false,
+      cash: false,
       alert: false,
       ditail: false,
       editOrderMenu: '',
-      totalPrice: ''
+      totalPrice: '',
     }
   },
   computed: {
@@ -325,6 +381,16 @@ export default {
       this.editOrderMenu = item
       this.editOrder = true
     },
+
+    cashRegister(item) {
+      this.cash = true
+      let total = 0;
+      item.menu_list.forEach(item => {
+        total += item.price * item.quantity
+      })
+      this.totalPrice = total * 1.1
+    },
+
     shopOrderDelete(item) {
       let orderDelete = confirm('本当に削除してもよろしいですか？');
       if(orderDelete) {
@@ -346,6 +412,11 @@ export default {
       this.$router.push('/order/' + item.id)
     },
   },
+  filters: {
+    priceLocaleString(value) {
+      return  value.toLocaleString();
+    },
+  }
 }
 </script>
 

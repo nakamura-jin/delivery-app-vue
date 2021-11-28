@@ -2,9 +2,8 @@
   <v-row>
     <v-col md="6" class="password_reset">
       <!-- <v-card> -->
-        <h3 style="justify-content: center" class="text-center text-md-h4 mb-md-8">パスワードをお忘れですか?</h3>
+        <h3 style="justify-content: center" class="text-center text-md-h4 mb-md-8">パスワードをリセットします</h3>
         <p class="pa-4 px-8 ma-0 text-md-subtitle-2 text-caption">
-          パスワードをお忘れの場合、再設定が必要になります。
           ご登録されているメールアドレスを入力し、
           受信メールからパスワードを再設定してください。<br><br>
           なお、迷惑メール防止の設定をしている場合、<span style="color: red">@delivery-app-69dc4.firebaseapp.com</span>からのドメイン受信設定を事前にお願いします。

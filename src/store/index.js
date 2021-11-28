@@ -29,6 +29,21 @@ export default new Vuex.Store({
 
       return total * 1.1
     },
+
+    myOrderTotalPrice: state => {
+      let list = [];
+      state.myOrder.forEach(item => {
+        list.push(item.menu_list)
+      })
+
+      let total = 0
+      list.forEach(item => {
+        item.forEach(el => {
+          total += el.price * el.quantity
+        })
+      })
+      return total * 1.1
+    }
   },
 
   mutations: {
