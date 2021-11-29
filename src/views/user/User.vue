@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <BackButton />
-    <h1 class="mb-md-4 text-center text-h5">User List</h1>
+    <h1 class="mb-md-4 text-center text-h5">ユーザー一覧</h1>
       <v-main class="pa-2">
         <UserList />
       </v-main>

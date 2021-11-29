@@ -12,7 +12,9 @@ export default new Vuex.Store({
     order: [],
     quantity: [],
     editFoodQuantity: [],
-    myOrder: []
+    myOrder: [],
+    mobileFoodDitail: [],
+    cashRegister: []
   },
 
   getters: {
@@ -174,6 +176,39 @@ export default new Vuex.Store({
 
     GET_MY_ORDER(state, data) {
       state.myOrder = data
+    },
+
+    MOBILE_FOOD_DITAIL(state, id) {
+      let list = []
+      state.order.forEach(item => {
+        if (item.id == id) {
+          list.push(item.menu_list)
+        }
+      })
+      state.mobileFoodDitail = list[0]
+    },
+
+    DELETE_MOBILE_FOOD_DITAIL(state) {
+      state.mobileFoodDitail = [];
+    },
+
+    CASH_REGISTER(state, { user_name, id }) {
+      let list = []
+      state.order.forEach(item => {
+        if (item.id == id) {
+          list.push(item.menu_list)
+        }
+      })
+
+      let price = 0;
+      list[0].forEach(item => {
+        price += (item.price * item.quantity) * 1.1
+      })
+      state.cashRegister = {user: user_name, totalPrice: price}
+    },
+
+    DELETE_CASH_REGISTER(state) {
+      state.cashRegister = [];
     }
   },
 

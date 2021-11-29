@@ -15,10 +15,10 @@
           <th class="py-3 pa-md-4 text-center text-md-subtitle-1 hidden-sm-and-down">
             料金
           </th>
-          <th class="py-3 pa-md-4 text-center text-md-subtitle-1" width="80">
+          <th class="py-3 pa-md-4 text-center text-md-subtitle-1">
             編集
           </th>
-          <th class="py-3 pa-md-4 text-center text-md-subtitle-1" width="80">
+          <th class="py-3 pa-md-4 text-center text-md-subtitle-1">
             削除
           </th>
         </tr>
@@ -29,17 +29,21 @@
           :key="item.id"
         >
           <!-- 料理名 -->
-          <td class="py-3 pa-md-4 text-left text-caption text-md-body-1">{{ item.name }}</td>
+          <td class="py-3 pa-md-4 text-center text-caption text-md-body-1">{{ item.name }}</td>
           <!-- 内容 -->
-          <td class="py-3 pa-md-4 text-left text-caption text-md-body-1 hidden-sm-and-down">{{ item.discription }}</td>
+          <td class="py-3 pa-md-4 text-center text-caption text-md-body-1 hidden-sm-and-down">{{ item.discription }}</td>
           <!-- タグ -->
-          <td class="py-3 pa-md-4 text-left text-caption text-md-body-1 hidden-sm-and-down text-center">{{ item.tag_name }}</td>
+          <td class="py-3 pa-md-4 text-center text-caption text-md-body-1 hidden-sm-and-down text-center">{{ item.tag_name }}</td>
           <!-- 金額 -->
-          <td class="py-3 pa-md-4 text-left text-caption text-md-body-1 hidden-sm-and-down text-center">{{ item.price }}</td>
+          <td class="py-3 pa-md-4 text-center text-caption text-md-body-1 hidden-sm-and-down text-center">{{ item.price }}</td>
           <!-- 編集 -->
-          <td class="py-3 pa-md-4 text-center" width="80"><v-btn icon color="success" @click="menuEdit(item.id)"><v-icon class="text-caption text-md-h6">mdi-pencil</v-icon></v-btn></td>
+          <td class="py-3 pa-md-4 text-center">
+            <v-btn icon color="success" @click="menuEdit(item.id)"><v-icon class="text-caption text-md-h6">mdi-pencil</v-icon></v-btn>
+          </td>
           <!-- 削除 -->
-          <td class="py-3 pa-md-4 text-center" width="80"><v-btn icon color="error" @click="menuDelete(item.id)"><v-icon class="text-caption text-md-h6">mdi-delete</v-icon></v-btn></td>
+          <td class="py-3 pa-md-4 text-center">
+            <v-btn icon color="error" @click="menuDelete(item.id)"><v-icon class="text-caption text-md-h6">mdi-delete</v-icon></v-btn>
+          </td>
         </tr>
       </tbody>
     </template>
@@ -61,9 +65,6 @@
       menuEdit(id) {
         this.$router.push({path: '/edit_menu', query: {id: id}});
       },
-      // getMenu(){
-      //   this.$store.dispatch('getMenu')
-      // },
       menuDelete(id) {
         let deleteMenu= confirm('本当に削除してよろしいですか？')
         if(deleteMenu) {
