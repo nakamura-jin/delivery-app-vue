@@ -17,6 +17,8 @@ export default {
     back() {
       if(this.$route.path == '/register' || this.$route.path == '/login') {
         this.$router.push('/')
+      } else if(this.$route.path == '/list_ditail') {
+        this.$router.push('/sales_lists')
       } else {
         this.$router.push('/top')
       }

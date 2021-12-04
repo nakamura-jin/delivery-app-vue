@@ -88,6 +88,7 @@
       await axios.get('/api/v1/user')
       .then(res => {
         this.users = res.data.data
+        console.log(this.users)
       })
 
     },

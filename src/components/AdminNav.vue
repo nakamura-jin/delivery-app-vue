@@ -120,13 +120,13 @@
         { text: 'メニュー', icon: 'mdi-silverware-variant', link: '/menu' },
         { text: 'オーダー', icon: 'mdi-note-edit', link: '/order' },
         { text: 'ユーザー一覧', icon: 'mdi-folder-account', link: '/user'},
+        { text: '売上リスト', icon: 'mdi-clipboard-list', link: '/sales_lists'},
       ],
-      members: [
-        { text: '従業員一覧', icon: 'mdi-folder', link: '/admin/member' },
-      ],
-      users: [
-        
-      ],
+      // members: [
+      //   { text: '従業員一覧', icon: 'mdi-folder', link: '/admin/member' },
+      // ],
+      // users: [
+      // ],
     }),
     computed: {
       user() {

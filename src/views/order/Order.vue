@@ -4,7 +4,7 @@
       <v-col>
         <BackButton />
         <div v-if="$vuetify.breakpoint.xs && order.length > 0 || $vuetify.breakpoint.sm && order.length > 0">
-          <h1 class="mb-4 text-center text-h5">注文一覧</h1>
+          <h2 class="mb-4 text-center">注文一覧</h2>
           <v-col class="pa-0 ma-0" v-if="alert">
             <DeleteAlert />
           </v-col>
@@ -70,10 +70,10 @@
 
                   <!-- 合計 -->
                   <td v-if="item.cooked == 0" style="color: #555" class="text-center">
-                    <TestPrice :Order="item.menu_list"/>
+                    <TotalPrice :Order="item.menu_list"/>
                   </td>
                   <td v-else class="text-center">
-                    <TestPrice :Order="item.menu_list"/>
+                    <TotalPrice :Order="item.menu_list"/>
                   </td>
 
                   <!-- 編集 -->
@@ -116,7 +116,7 @@
 
 
         <div v-if="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm && order.length > 0">
-          <h1 class="mb-6 text-center text-h5 mx-auto">注文一覧</h1>
+          <h2 class="mb-6 text-center mx-auto">注文一覧</h2>
           <v-col class="pa-0 ma-0" v-if="alert">
             <DeleteAlert />
           </v-col>
@@ -195,16 +195,16 @@
 
                   <!-- 合計 -->
                   <td v-if="item.cooked == 0" style="color: #555" class="text-center">
-                    <TestPrice :Order="item.menu_list"/>
+                    <TotalPrice :Order="item.menu_list"/>
                   </td>
                   <td v-else class="text-center">
-                    <TestPrice :Order="item.menu_list"/>
+                    <TotalPrice :Order="item.menu_list"/>
                   </td>
 
                   <!-- 編集 -->
                   <td class="text-center"><v-btn icon color="success" :disabled="item.cooked == 0" @click="shopOrderEdit(item)"><v-icon class="text-caption text-md-h6">mdi-pencil</v-icon></v-btn></td>
                   <!-- 決済 -->
-                  <td class="text-center"><v-btn icon color="primary" :disabled="item.cooked == 0" @click="cashRegister(item)"><v-icon class="text-caption text-md-h6">mdi-cash-register</v-icon></v-btn></td>
+                  <td class="text-center"><v-btn icon color="primary" @click="cashRegister(item)"><v-icon class="text-caption text-md-h6">mdi-cash-register</v-icon></v-btn></td>
                   <!-- 削除 -->
                   <td class="text-center"><v-btn icon color="error" @click="shopOrderDelete(item)"><v-icon class="text-caption text-md-h6">mdi-delete</v-icon></v-btn></td>
                 </tr>
@@ -229,8 +229,6 @@
           </v-dialog>
 
         </div>
-
-
         <div v-if="order.length == 0" class="mt-12">
           <p class="text-center text-h6 text-md-h5 font-weight-bold">現在注文はありません</p>
         </div>
@@ -247,10 +245,12 @@ import OrderCooked from '@/components/OrderCooked.vue'
 import OrderMenu from '@/components/OrderMenu.vue'
 import OrderQuantity from '@/components/OrderQuantity.vue'
 import ShopEditOrder from '@/components/ShopEditOrder.vue'
-import TestPrice from '@/components/TestPrice.vue'
+import TotalPrice from '@/components/TotalPrice.vue'
 import BackButton from '@/components/BackButton.vue'
 import MobileFoodDitail from '@/components/MobileFoodDitail.vue'
 import Payment from '@/components/Payment.vue'
+
+// import axios from 'axios'
 
 export default {
   name: 'Order',
@@ -260,10 +260,10 @@ export default {
     OrderMenu,
     OrderQuantity,
     ShopEditOrder,
-    TestPrice,
+    TotalPrice,
     BackButton,
     MobileFoodDitail,
-    Payment
+    Payment,
   },
   data(){
     return {
@@ -273,6 +273,7 @@ export default {
       ditail: false,
       editOrderMenu: '',
       totalPrice: '',
+      finish: false
     }
   },
   computed: {
@@ -284,6 +285,9 @@ export default {
     },
     cart() {
       return this.$store.state.cart
+    },
+    paid() {
+      return this.$store.state.paid
     }
   },
   mounted() {
@@ -318,7 +322,7 @@ export default {
 
     cashRegister(item) {
       this.cash = true
-      this.$store.commit('CASH_REGISTER', {user_name: item.user_name, id: item.id})
+      this.$store.commit('CASH_REGISTER', { user_name: item.user_name, id: item.id, order: item })
     },
 
     shopOrderDelete(item) {
@@ -338,9 +342,10 @@ export default {
         })
       }
     },
+
     shopOrderDitail(item) {
       this.$router.push('/order/' + item.id)
-    }
+    },
   },
   filters: {
     priceLocaleString(value) {

@@ -20,6 +20,8 @@ import PasswordReset from '../views/auth/PasswordReset.vue'
 import SendPasswordResetMail from '../views/auth/SendPasswordResetMail.vue'
 import Setting from '../views/user/Setting.vue'
 import BuyingHistory from '../views/user/BuyingHistory.vue'
+import SalesLists from '../views/salesLists/SalesLists.vue'
+import ListDitail from '../views/salesLists/ListDitail.vue'
 
 Vue.use(VueRouter)
 
@@ -124,6 +126,16 @@ const routes = [
     path: '/buying_history',
     name: 'BuyingHistory',
     component: BuyingHistory
+  },
+  {
+    path: '/sales_lists',
+    name: 'SalesLists',
+    component: SalesLists
+  },
+  {
+    path: '/list_ditail',
+    name: 'ListDitail',
+    component: ListDitail,
   },
 ]
 

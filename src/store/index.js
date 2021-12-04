@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import moment from 'moment'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,9 @@ export default new Vuex.Store({
     editFoodQuantity: [],
     myOrder: [],
     mobileFoodDitail: [],
-    cashRegister: []
+    cashRegister: [],
+    sales_list: [],
+    setDate: [],
   },
 
   getters: {
@@ -117,7 +120,7 @@ export default new Vuex.Store({
 
 
       state.order = data.filter(item => {
-        return item.display == 1 && item.date == today;
+        return  item.display == 1 && item.date == today;
         // return item.date == today
       });
     },
@@ -192,7 +195,7 @@ export default new Vuex.Store({
       state.mobileFoodDitail = [];
     },
 
-    CASH_REGISTER(state, { user_name, id }) {
+    CASH_REGISTER(state, { user_name, id, order }) {
       let list = []
       state.order.forEach(item => {
         if (item.id == id) {
@@ -204,12 +207,40 @@ export default new Vuex.Store({
       list[0].forEach(item => {
         price += (item.price * item.quantity) * 1.1
       })
-      state.cashRegister = {user: user_name, totalPrice: price}
+      state.cashRegister = {user: user_name, totalPrice: price, order: order}
     },
 
     DELETE_CASH_REGISTER(state) {
       state.cashRegister = [];
-    }
+    },
+
+    SALES_LISTS(state, data) {
+      state.sales_list = data;
+    },
+
+    SET_DATE(state) {
+      let start = moment().startOf('months')
+      let setDate = [start.format('YYYY-MM-DD')];
+      let end = moment().endOf('months').format('D') -1
+
+      for(let i = 0; i < end; i++) {
+        setDate.push(start.add(1, 'days').format('YYYY-MM-DD'))
+      }
+      state.setDate = setDate
+    },
+
+    CHANGE_DATE(state, { value }) {
+      let changeValue = moment(value)
+      let start = moment(changeValue).startOf('months')
+      let setDate = [start.format('YYYY-MM-DD')];
+      let end = moment(changeValue).endOf('months').format('D') -1
+
+      for(let i = 0; i < end; i++) {
+        setDate.push(start.add(1, 'days').format('YYYY-MM-DD'))
+      }
+      state.setDate = setDate
+    },
+
   },
 
 
@@ -221,9 +252,10 @@ export default new Vuex.Store({
       .then((res) => {
         commit('SET_USER', res.data.data)
       })
-        .then(() => {
+      .then(() => {
         dispatch('getCartItems', { user_id: this.state.user.id})
-        dispatch('getMyOrder', { user_id: this.state.user.id})
+        dispatch('getMyOrder', { user_id: this.state.user.id })
+        dispatch('sales_list')
       })
     },
 
@@ -314,7 +346,25 @@ export default new Vuex.Store({
         .then(res => {
         commit('GET_MY_ORDER', res.data.data)
       })
-    }
+    },
+
+    async sales_list({ commit }) {
+      await axios.get('/api/v1/sales_list')
+      .then(res => {
+        commit('SALES_LISTS', res.data.data)
+      })
+    },
+
+    async setSalesList({ dispatch }, {id, user_id, menu_list, display, date, time }) {
+      await axios.post('/api/v1/sales_list', {
+        user_id: user_id,
+        menu_list: menu_list,
+        date: date,
+        time: time
+      })
+      dispatch('editShopOrder', {id, user_id, menu_list, display, date, time })
+    },
+
   },
   modules: {
   }

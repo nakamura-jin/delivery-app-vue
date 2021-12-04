@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  name: 'TotalPrice',
   props: {
     Order: Array
   },
