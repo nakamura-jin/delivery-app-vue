@@ -107,6 +107,7 @@
 </template>
 
 <script>
+  import moment from 'moment'
   import LogoutButton from '@/components/LogoutButton.vue'
   export default {
     name: 'AdminNav',
@@ -120,7 +121,7 @@
         { text: 'メニュー', icon: 'mdi-silverware-variant', link: '/menu' },
         { text: 'オーダー', icon: 'mdi-note-edit', link: '/order' },
         { text: 'ユーザー一覧', icon: 'mdi-folder-account', link: '/user'},
-        { text: '売上リスト', icon: 'mdi-clipboard-list', link: '/sales_lists'},
+        { text: '売上リスト', icon: 'mdi-clipboard-list', link: {path: '/sales_lists', query: {month: moment().startOf('months').format('YYYY-MM') }} },
       ],
       // members: [
       //   { text: '従業員一覧', icon: 'mdi-folder', link: '/admin/member' },

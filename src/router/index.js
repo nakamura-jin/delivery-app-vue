@@ -130,7 +130,8 @@ const routes = [
   {
     path: '/sales_lists',
     name: 'SalesLists',
-    component: SalesLists
+    component: SalesLists,
+    props: true
   },
   {
     path: '/list_ditail',

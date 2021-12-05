@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <BackButton />
+    <BackButton :Month="dates[0]" />
     <v-row class="mt-6">
       <v-col>
         <h2 class="text-center">{{ value | monthFormat }}月 売上リスト</h2>
@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       setMonth: [],
-      value: moment().startOf('months'),
+      value: this.$route.query.month,
     }
   },
   computed: {
@@ -64,10 +64,6 @@ export default {
     }
   },
   async mounted() {
-    console.log(this.$store.state.setDate)
-    this.$store.dispatch('sales_list')
-    this.$store.commit('SET_DATE')
-
 
     // 1年前までのデータ取得
     let thisMonth = moment().startOf('months')
@@ -76,6 +72,9 @@ export default {
       setMonth.push(thisMonth.add(-1, 'month').format('YYYY-MM'))
     }
     this.setMonth = setMonth
+
+    this.$store.dispatch('sales_list')
+    this.$store.commit('SET_DATE', this.value)
   },
 
   filters: {
@@ -106,12 +105,9 @@ export default {
         for(let i = 0; i < end; i++) {
           setDate.push(start.add(1, 'days').format('YYYY-MM-DD'))
         }
-        // this.dates = setDate
-
         this.$store.commit('CHANGE_DATE', { value })
       }
-      // console.log(tMonth, setMonth)
-    },
+    }
   },
   created() {
     this.changeMonth()
