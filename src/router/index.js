@@ -11,15 +11,14 @@ import CreatedMenu from '../views/menu/CreatedMenu.vue'
 import EditMenu from '../views/menu/EditMenu.vue'
 import UpdatedMenu from '../views/menu/UpdatedMenu.vue'
 import User from '../views/user/User.vue'
-import EditUser from '../views/user/EditUser.vue'
 import Cart from '../views/cart/Cart.vue'
 import CheckOut from '../views/cart/CheckOut.vue'
 import Order from '../views/order/Order.vue'
 import UpdatedOrder from '../views/order/UpdatedOrder.vue'
 import PasswordReset from '../views/auth/PasswordReset.vue'
-import SendPasswordResetMail from '../views/auth/SendPasswordResetMail.vue'
 import Setting from '../views/user/Setting.vue'
-import BuyingHistory from '../views/user/BuyingHistory.vue'
+import ChangeEmail from '../views/auth/ChageEmail.vue'
+import OnOrder from '../views/user/OnOrder.vue'
 import SalesLists from '../views/salesLists/SalesLists.vue'
 import ListDitail from '../views/salesLists/ListDitail.vue'
 
@@ -83,11 +82,6 @@ const routes = [
     component: User
   },
   {
-    path: '/edit_user',
-    name: 'EditUser',
-    component: EditUser
-  },
-  {
     path: '/cart',
     name: 'Cart',
     component: Cart
@@ -113,19 +107,19 @@ const routes = [
     component: PasswordReset
   },
   {
-    path: '/send_mail',
-    name: 'SendPasswordResetMail',
-    component: SendPasswordResetMail
-  },
-  {
     path: '/setting',
     name: 'Setting',
     component: Setting
   },
   {
-    path: '/buying_history',
-    name: 'BuyingHistory',
-    component: BuyingHistory
+    path: '/change_email',
+    name: ChangeEmail,
+    component: ChangeEmail
+  },
+  {
+    path: '/on_order',
+    name: 'OnOrder',
+    component: OnOrder
   },
   {
     path: '/sales_lists',

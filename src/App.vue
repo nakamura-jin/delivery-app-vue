@@ -18,7 +18,7 @@
 
       <!-- メンバー -->
       <div v-if="user.role_id == 2">
-        <!-- <MemberNav /> -->
+        <MemberNav />
       </div>
 
       <!-- メンバー -->
@@ -34,19 +34,7 @@
       <v-toolbar-title>Application</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <!-- <v-row v-if="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm && this.$store.state.user != null">
-        <v-tabs show-arrows fixed-tabs color="black">
-          <v-tab class="text-subtitle-2 font-weight-bold error" @click="selectMenu(0)">全ての料理</v-tab>
-          <v-tab class="text-subtitle-2 font-weight-bold error" @click="selectMenu(1)">肉料理</v-tab>
-          <v-tab class="text-subtitle-2 font-weight-bold error" @click="selectMenu(2)">揚げ物</v-tab>
-          <v-tab class="text-subtitle-2 font-weight-bold error" @click="selectMenu(3)">野菜料理</v-tab>
-          <v-tab class="text-subtitle-2 font-weight-bold error" @click="selectMenu(4)">定番おつまみ</v-tab>
-          <v-tab class="text-subtitle-2 font-weight-bold error" @click="selectMenu(5)">ごはんもの</v-tab>
-        </v-tabs>
-      </v-row> -->
-      <!-- <v-spacer></v-spacer> -->
-
-      <v-btn icon @click="goToCart">
+      <v-btn icon @click="goToCart(user.role_id)">
         <v-icon>mdi-cart</v-icon>
         <v-badge offset-y="-2" offset-x="14" :content="cartItemCount" :value="cartItemCount" v-if="cartItemCount > 0">
         </v-badge>
@@ -67,22 +55,27 @@
   import AdminNav from '@/components/AdminNav.vue'
   import AllUserNav from '@/components/AllUserNav.vue'
   import UserNav from '@/components/UserNav.vue'
+  import MemberNav from '@/components/MemberNav.vue'
   import { mapGetters } from 'vuex'
   export default {
     components: {
       AdminNav,
       AllUserNav,
-      UserNav
+      UserNav,
+      MemberNav
     },
     data: () => ({
       drawer: false,
       base: false,
-      selected: 1,
       search: ''
     }),
     methods: {
-      goToCart() {
-        this.$router.push('/cart')
+      goToCart(id) {
+        if(id != 3) {
+          alert('ユーザーのみ利用可能です')
+        } else {
+          this.$router.push('/cart')
+        }
       },
       selectMenu(tag) {
         if(tag != 0) {

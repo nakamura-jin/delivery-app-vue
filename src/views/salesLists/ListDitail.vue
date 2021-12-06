@@ -4,7 +4,26 @@
     <v-row class="mt-6">
       <v-col class="text-center">
         <h2 class="mb-8">売上詳細</h2>
-        <v-simple-table class="mt-12">
+        <v-simple-table v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm" class="mt-12">
+          <thead>
+            <tr>
+              <th class="text-center pa-0">お客様名</th>
+              <th class="text-center pa-0">料理名</th>
+              <th class="text-center pa-0">料金</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template>
+              <tr v-for="item in salesListDitail" :key="item.id">
+                <td class="pa-0">{{ item.user_name }}</td>
+                <td class="pa-0"><OrderMenu :Order="item.menu_list" /></td>
+                <td class="pa-0 mx-auto"><TotalPrice :Order="item.menu_list" /> </td>
+              </tr>
+            </template>
+          </tbody>
+        </v-simple-table>
+
+        <v-simple-table v-else class="mt-12">
           <thead>
             <tr>
               <th class="text-center">お客様名</th>

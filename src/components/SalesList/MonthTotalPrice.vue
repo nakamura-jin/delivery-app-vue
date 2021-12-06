@@ -1,7 +1,11 @@
 <template>
   <v-container>
-    <span>総合売上金額 </span>
-    <span class="text-h4 mr-8">￥ {{ totalPrice(date) | priceLocaleString }}</span>
+    <v-row>
+      <v-col>
+        <span class="text-subtitle-1">総合売上金額 </span>
+        <span class="text-h6 text-md-h4 mr-md-8">￥ {{ totalPrice(date) | priceLocaleString }}</span>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

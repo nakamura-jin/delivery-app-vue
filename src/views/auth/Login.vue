@@ -31,7 +31,7 @@
                   dense
                   class="mb-6"
                   :error-messages="ProviderProps.errors[0]"
-                  :counter="6"
+                  counter="min:6"
                   :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show1 ? 'text' : 'password'"
                   @click:append="show1 = !show1"

@@ -1,7 +1,7 @@
 <template>
   <v-container class="pa-0">
-    <v-alert v-show="setAlert >= '20:30'" class="warning text-center black--text text-caption mb-6" type="warning">
-      本日分の受付は終了しました
+    <v-alert v-show="now >= '20:30'" class="warning text-center black--text text-caption mb-6" type="warning" dense>
+      本日分の受付は終了しました<br>明日以降の受け取りになります
     </v-alert>
     <v-card max-width="400">
       <v-card-text class="text-center py-3 text-h6">最終確認</v-card-text>
@@ -62,11 +62,12 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: 'OrderConfirmation',
   props: {
     Cart: Array,
-    Total: Number
+    Total: Number,
   },
   data() {
     return {
@@ -75,103 +76,13 @@ export default {
       checkOut: [],
       week: [],
       selectTime: [],
-      today: '',
+      today: moment().format('YYYY年M月D日'),
       time: '',
       getTime: '',
-      setAlert: ''
+      now: ''
     }
   },
   computed: {
-    // setTime() {
-    //   let date = new Date()
-    //   this.setAlert = ("0" + (date.getHours())).slice(-2) + ':' + ("0" + (date.getMinutes())).slice(-2);
-    //   // let getTime = ("0" + (date.getHours())).slice(-2) + ':' + ("0" + (date.getMinutes())).slice(-2);
-    //   let getTime = this.setAlert
-    //   // let getTime = '19:10'
-    //   let setToday = date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日'
-
-    //   if(getTime < '17:30' && this.today == setToday || this.today != setToday) {
-    //     this.selectTime =
-    //       [
-    //         '18:00', '18:15', '18:30', '18:45',
-    //         '19:00', '19:15', '19:30', '19:45',
-    //         '20:00', '20:15', '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '17:45' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '18:15', '18:30', '18:45',
-    //         '19:00', '19:15', '19:30', '19:45',
-    //         '20:00', '20:15', '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '18:00' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '18:30', '18:45',
-    //         '19:00', '19:15', '19:30', '19:45',
-    //         '20:00', '20:15', '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '18:15' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '18:45',
-    //         '19:00', '19:15', '19:30', '19:45',
-    //         '20:00', '20:15', '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '18:30' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '19:00', '19:15', '19:30', '19:45',
-    //         '20:00', '20:15', '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '18:45' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '19:15', '19:30', '19:45',
-    //         '20:00', '20:15', '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '19:00' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '19:30', '19:45',
-    //         '20:00', '20:15', '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '19:15' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '19:45',
-    //         '20:00', '20:15', '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '19:30' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '20:00', '20:15', '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '19:45' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '20:15', '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '20:00' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '20:30', '20:45','21:00'
-    //       ]
-    //   } else if(getTime < '20:15' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '20:45','21:00'
-    //       ]
-    //   } else if(getTime <= '20:30' && this.today == setToday ){
-    //     this.selectTime =
-    //       [
-    //         '21:00'
-    //       ]
-    //   } else {
-    //     this.selectTime = ['本日の受付は終了しました']
-    //   }
-    //   // return
-    // },
     user() {
       if(JSON.stringify(this.$store.state.user) == []) {
         return false
@@ -183,30 +94,27 @@ export default {
 
 
   mounted() {
-    let date = new Date();
-    // let getTime = ("0" + (date.getHours())).slice(-2) + ':' + ("0" + (date.getMinutes())).slice(-2);
-    let getTime = this.setAlert;
-    // let getTime = '20:50';
-    if(getTime <= '20:30') {
-      for (let i = 0; i < 6; i++) {
-        let today = new Date();
-        today.setDate(date.getDate() + i);
-        this.week.push(today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日');
+    this.now = moment().format('HH:mm')
+    if(this.now <= '20:30') {
+      // 今日含む一週間
+      let start = moment()
+      let week = [start.format('YYYY年M月D日')]
+      for(let i = 0; i < 6; i++) {
+        week.push(start.add(1, 'days').format('YYYY年M月D日'))
       }
+      this.week = week
     } else {
-      for (let i = 0; i < 6; i++) {
-        let today = new Date();
-        today.setDate((date.getDate() + 1) + i);
-        this.week.push(today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日');
+      // 明日から一週間
+      let start = moment()
+      for (let i = 0; i < 7; i++) {
+        this.week.push(start.add(1, 'days').format('YYYY年M月D日'))
       }
     }
-    // console.log(getTime)
   },
   methods: {
     goToCompleted(){
-      //日付の型変更
-      let date = this.today.split(/年|月|日/)
-      let selectDay = date[0] + '-' + date[1] + '-' + (date[2])
+
+      let selectDay = moment().format('YYYY-MM-DD')
 
       let menuList = [];
       this.Cart.forEach(item => {
@@ -218,7 +126,6 @@ export default {
         menu_list: menuList,
         date: selectDay,
         time: this.time,
-        // cart_id: this.myCart[0].id
       });
       this.$router.push('/checkout')
     },
@@ -228,12 +135,9 @@ export default {
     },
 
     setTime() {
-      let date = new Date()
-      this.setAlert = ("0" + (date.getHours())).slice(-2) + ':' + ("0" + (date.getMinutes())).slice(-2);
-      // let getTime = ("0" + (date.getHours())).slice(-2) + ':' + ("0" + (date.getMinutes())).slice(-2);
-      let getTime = this.setAlert
-      // let getTime = '19:10'
-      let setToday = date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日'
+      let getTime = moment().format('HH:mm');
+      let setToday = moment().format('YYYY年M月D日')
+
 
       if(getTime < '17:30' && this.today == setToday || this.today != setToday) {
         this.selectTime =

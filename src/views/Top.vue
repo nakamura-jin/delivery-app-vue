@@ -1,33 +1,9 @@
 <template>
   <v-container>
-    <v-row v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm">
-      <v-tabs show-arrows fixed-tabs align-with-title>
-        <v-tab class="text-caption">全料理</v-tab>
-        <v-tab class="text-caption">肉料理</v-tab>
-        <v-tab class="text-caption">揚げ物</v-tab>
-        <v-tab class="text-caption">野菜料理</v-tab>
-        <v-tab class="text-caption">定番<br>おつまみ</v-tab>
-        <v-tab class="text-caption">ご飯もの</v-tab>
-      </v-tabs>
-    </v-row>
-
-    <!-- <v-row>
-      <v-col>
-        <v-col cols="6" md="6" class="ml-auto mr-4">
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-          ></v-text-field>
-        </v-col>
-      </v-col>
-    </v-row> -->
 
     <v-row>
       <v-col class="pa-2 pa-0 px-md-8 d-sm-flex flex-wrap" name="fade">
-        <v-card v-for="item in filteredmenus" :key="item.id" class="ma-3" max-width="340px">
+        <v-card v-for="item in menus" :key="item.id" class="ma-3" max-width="340px">
           <v-col class="mx-auto">
             <v-img :src="item.image" height="160">
               <template v-slot:placeholder>
@@ -60,7 +36,6 @@
               <SelectQuantity :Item = item />
             </div>
 
-              <!-- <v-spacer></v-spacer> -->
               <CardButton
                 v-if="user != false "
                 :userId = user.id
@@ -79,7 +54,6 @@
 </template>
 
 <script>
-  // import firebase from '@/plugins/firebase'
   import SelectQuantity from '@/components/SelectQuantity.vue'
   import CardButton from '@/components/CardButton.vue'
   import PromptLogin from '@/components/PromptLogin.vue'
@@ -100,7 +74,8 @@
         selectTag: '',
         show: true,
         menus: [],
-        search: ''
+        search: '',
+        value: ''
       }
     },
     methods: {
@@ -120,22 +95,6 @@
       }
     },
     computed: {
-      filteredmenus() {
-        let setMenus = [];
-        if (this.menus !== "" ) {
-          for (const i in this.menus) {
-            const list = this.menus[i];
-            if (
-              list.name.indexOf(this.search) !== -1
-              ||
-              list.discription.indexOf(this.search) !== -1) {
-            setMenus.push(list);
-            }
-          }
-          return setMenus;
-        }
-        return this.menus;
-      },
       user() {
         if(JSON.stringify(this.$store.state.user) == []) {
           return false

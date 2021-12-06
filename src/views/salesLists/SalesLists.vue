@@ -1,34 +1,60 @@
 <template>
   <v-container>
-    <BackButton :Month="dates[0]" />
-    <v-row class="mt-6">
+    <v-row>
       <v-col>
-        <h2 class="text-center">{{ value | monthFormat }}月 売上リスト</h2>
-        <v-col md="4" class="ml-auto">
-          <v-select :items="setMonth" v-model="value">{{ changeMonth(value) }}</v-select>
-        </v-col>
-        <v-simple-table class="mx-4">
-          <thead>
-            <tr>
-              <th class="text-center text-subtitle-1 font-weight-bold">日付</th>
-              <th class="text-center text-subtitle-1 font-weight-bold">決済数</th>
-              <th class="text-center text-subtitle-1 font-weight-bold">商品詳細</th>
-              <th class="text-center text-subtitle-1 font-weight-bold">売上金額</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(date, index) in dates" :key="index">
-              <td class="text-center">{{ date | momentDate }}</td>
-              <td class="text-center"><List :Date="date" /></td>
-              <td class="text-center"><v-btn color="error" @click="dayOrderDitail(date)">ditail</v-btn></td>
-              <td class="text-center"><ListTotalPrice :Date="date" /></td>
-            </tr>
-          </tbody>
-        </v-simple-table>
+        <BackButton :Month="dates[0]" />
+        <div class="mt-6">
+          <h2 class="text-center">{{ value | monthFormat }}月 売上リスト</h2>
+          <v-col md="4" class="ml-auto">
+            <v-select :items="setMonth" v-model="value">{{ changeMonth(value) }}</v-select>
+          </v-col>
+          <v-simple-table v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm" class="px-2">
+            <template>
+              <thead>
+                <tr>
+                  <th class="text-center text-caption font-weight-bold pa-0">日付</th>
+                  <th class="text-center text-caption font-weight-bold pa-0">決済数</th>
+                  <th class="text-center text-caption font-weight-bold pa-0">商品詳細</th>
+                  <th class="text-center text-caption font-weight-bold pa-0">売上金額</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(date, index) in dates" :key="index">
+                  <td class="text-center pa-0">{{ date | momentDate }}</td>
+                  <td class="text-center pa-0"><List :Date="date" /></td>
+                  <td class="text-center pa-0"><v-btn color="error" @click="dayOrderDitail(date)" small>詳細</v-btn></td>
+                  <td class="text-center pa-0"><ListTotalPrice :Date="date" /></td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
 
-        <v-col cols="4" class="mt-6 ml-auto">
-          <span class="text-h6 text-right"><MonthTotalPrice :Value="value" /></span>
-        </v-col>
+
+          <v-simple-table v-else class="px-2">
+            <template>
+              <thead>
+                <tr>
+                  <th class="text-center text-subtitle-1 font-weight-bold">日付</th>
+                  <th class="text-center text-subtitle-1 font-weight-bold">決済数</th>
+                  <th class="text-center text-subtitle-1 font-weight-bold">商品詳細</th>
+                  <th class="text-center text-subtitle-1 font-weight-bold">売上金額</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(date, index) in dates" :key="index">
+                  <td class="text-center">{{ date | momentDate }}</td>
+                  <td class="text-center"><List :Date="date" /></td>
+                  <td class="text-center"><v-btn color="error" @click="dayOrderDitail(date)">ditail</v-btn></td>
+                  <td class="text-center"><ListTotalPrice :Date="date" /></td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+
+          <v-col md="4" class="mt-6 ml-auto">
+            <span class="text-h6 text-right"><MonthTotalPrice :Value="value" /></span>
+          </v-col>
+        </div>
       </v-col>
     </v-row>
   </v-container>

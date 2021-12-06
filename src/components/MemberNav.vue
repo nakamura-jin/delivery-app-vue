@@ -4,7 +4,6 @@
     width="256"
     tile
   >
-      <v-system-bar></v-system-bar>
       <v-list>
         <v-list-item link>
           <v-list-item-content>
@@ -26,8 +25,7 @@
         dense
       >
 
-<!-------------------- お店 -------------------->
-
+<!-------------------- リスト -------------------->
         <v-list-item
           v-for="(shop, i) in shops"
           :key="i"
@@ -35,15 +33,13 @@
           :to="shop.link"
         >
 
-          <v-list-item-icon class="mr-0">
+        <v-list-item-title v-text="shop.text" class="text-center"></v-list-item-title>
+
+          <v-list-item-icon>
             <v-icon v-text="shop.icon"></v-icon>
           </v-list-item-icon>
 
-          <v-list-item-title v-text="shop.text" class="text-center"></v-list-item-title>
-
         </v-list-item>
-
-
     </v-list>
   </v-card>
 </template>
@@ -51,7 +47,7 @@
 <script>
   import LogoutButton from '@/components/LogoutButton.vue'
   export default {
-    name: 'UserNav',
+    name: 'AdminNav',
     components: {
       LogoutButton
     },
@@ -59,18 +55,14 @@
       selectedItem: 0,
       shops: [
         { text: 'サイト', icon: 'mdi-web', link: '/top' },
-        { text: '設定', icon: 'mdi-cog', link: '/setting' },
-        { text: '注文中商品', icon: 'mdi-note', link: '/on_order'},
-      ],
+        { text: 'メニュー', icon: 'mdi-silverware-variant', link: '/menu' },
+        { text: 'オーダー', icon: 'mdi-note-edit', link: '/order' },
+      ]
     }),
     computed: {
       user() {
-        if(JSON.stringify(this.$store.state.user) == []) {
-          return false
-        }
-
         return this.$store.state.user
       }
-    }
+    },
   }
 </script>

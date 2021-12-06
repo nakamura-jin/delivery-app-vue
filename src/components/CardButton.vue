@@ -19,25 +19,21 @@ export default {
   },
   methods: {
     addToCart() {
-      // if(this.Item.quantity == undefined) {
-      //   this.Item.quantity = 1
-      // }
-      // this.$store.dispatch('addMenuToCart', {
-      //   user_id: this.userId,
-      //   menu_id: this.Item.id,
-      //   quantity: this.quantity,
-      // })
-      this.$store.state.quantity.forEach(el => {
-        if(this.Item.id == el.id) {
-          this.quantity = el.quantity
-        }
-      })
+      if(this.$store.state.user.role_id!= 3) {
+        alert('ユーザーのみ利用可能です')
+      } else {
+        this.$store.state.quantity.forEach(el => {
+          if(this.Item.id == el.id) {
+            this.quantity = el.quantity
+          }
+        })
 
-      this.$store.dispatch('addMenuToCart', {
-        user_id: this.userId,
-        menu_id: this.Item.id,
-        quantity: this.quantity,
-      })
+        this.$store.dispatch('addMenuToCart', {
+          user_id: this.userId,
+          menu_id: this.Item.id,
+          quantity: this.quantity,
+        })
+      }
     },
   },
   computed: {

@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <div v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm" style="width: 60px;">
+    <div v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm" >
       ¥ {{ total_price | priceLocaleString }}
     </div>
 
