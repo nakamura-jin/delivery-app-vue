@@ -69,7 +69,6 @@ export default new Vuex.Store({
       //   }
       // })
       state.quantity.push(data)
-      console.log(state.quantity)
     },
 
     DELETE_MENU(state, id) {

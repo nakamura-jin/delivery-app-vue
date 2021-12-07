@@ -178,7 +178,7 @@
                 <v-checkbox
                   label="ごはんもの"
                   v-model="tag_id"
-                  class="mt-0 pt-4"
+                  class="mt-0 ml-6"
                   value="5"
                   color="error"
                   hide-details="false"

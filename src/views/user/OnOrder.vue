@@ -157,7 +157,6 @@
       axios.get('/api/v1/order/user/' + this.$store.state.user.id)
       .then(res => {
         this.orderList = res.data.data
-        console.log(this.orderList)
       })
     }
 

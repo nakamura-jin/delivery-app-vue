@@ -1,24 +1,144 @@
-# delivery-app-vue
+# TakeOut app
+テイクアウトのデモアプリです。
 
-## Project setup
-```
-yarn install
-```
+フロントエンドをvue.js、バックエンドをlaravelで作成し、PCとスマートフォンどちらにも対応させております。
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
 
-### Compiles and minifies for production
-```
-yarn build
-```
 
-### Lints and fixes files
-```
-yarn lint
-```
+**laravel GitHub**
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+https://github.com/nakamura-jin/delivery-app-laravel
+
+
+**アプリケーションURL**
+
+
+
+
+***
+# 機能一覧
+* ユーザー
+  * 会員登録
+  * ログイン・ログアウト
+  * メールアドレス変更
+  * パスワードリセット
+  * カート登録
+  * 注文
+
+* オーナー
+  * 会員登録
+  * ログイン・ログアウト
+  * メニュー作成
+  * 役割編集
+  * 当日オーダー表示・編集・決済・削除
+  * 売上一覧・詳細表示
+
+***
+
+# サイト画面
+
+**PC版**
+
+<img width="1421" alt="スクリーンショット 2021-12-07 12 10 19" src="https://user-images.githubusercontent.com/79826333/144961990-06979a2b-f040-40dc-a837-5d3b38bc24a0.png">
+
+
+
+**スマートフォン版**
+
+![スクリーンショット 2021-12-07 12 42 54](https://user-images.githubusercontent.com/79826333/144962324-37423809-ae2b-4c65-85da-0f51794c8fea.png)
+
+
+※下記よりPC版の画面になっております。ブラウザのテーマによって背景色が変わります。
+
+
+
+***
+# オーナー側
+
+オーナー
+![スクリーンショット 2021-12-07 12 53 50](https://user-images.githubusercontent.com/79826333/144963587-d3833f81-0991-4da0-ba34-cc818bafee6d.png)
+
+
+* ログインの際にオーナー、ユーザーのどちらかで左側のメニューナビゲーションが変わります
+
+* オーナー側では、カート登録、注文の機能に制限があり、登録できないようになっています
+
+https://user-images.githubusercontent.com/79826333/144965210-66fb8837-09ab-4cbf-b8c6-91cf26654e88.mov
+
+
+
+***
+## メニュー作成ページ
+
+![スクリーンショット 2021-12-07 13 25 10](https://user-images.githubusercontent.com/79826333/144966130-2abfb788-7f7c-409d-9ed4-826599f0c53c.png)
+
+登録の項目は「料理名」、「説明」、「タグ」、「金額」、「画像」の５項目で、説明は40文字以内の制限があります。
+
+
+***
+## オーダーページ
+
+![スクリーンショット 2021-12-07 13 32 20](https://user-images.githubusercontent.com/79826333/144966775-20c543ca-de79-448c-8aa9-b6e944d778a4.png)
+
+
+
+調理状態はON・OFFのスイッチになっており、オーダーの調理完了したらクリックし緑色に変更することで一目で状況がわかるようになってます。スイッチのため誤って登録したり、オーダーの変更があっても戻すことができるようになってます。
+
+***
+# ユーザー一覧ページ
+
+
+![スクリーンショット 2021-12-07 13 39 47](https://user-images.githubusercontent.com/79826333/144967744-3a1b0b7b-3908-46c7-91fd-4d1a0d406e45.png)
+
+編集から役割の変更が可能になります。
+
+***
+## 売上リスト
+
+
+https://user-images.githubusercontent.com/79826333/144968488-90abd7f3-c48d-4ee2-b783-7421d3c6818c.mov
+
+当月の売上リストが表示されます。右にあるセレクトタブで12ヶ月前まで遡ることができます。さらに詳細ボタンをクリックすると、その日一日の売上を見ることもできます  
+
+
+***
+# ユーザー
+
+![スクリーンショット 2021-12-07 12 56 34](https://user-images.githubusercontent.com/79826333/144963671-248ec652-1e6d-432e-8833-dbd542de8449.png)
+
+
+***
+
+## カート
+
+![スクリーンショット 2021-12-07 13 59 58](https://user-images.githubusercontent.com/79826333/144969398-17598931-8bcc-460e-a7ec-c843e34a2ce2.png)
+
+
+![スクリーンショット 2021-12-07 14 00 12](https://user-images.githubusercontent.com/79826333/144969449-3cddb0f9-1131-4995-bd18-bf90fe73b24d.png)
+
+
+* 注文をする際、受取日を当日から一週間で指定できます。
+
+* 受取時間を18:00〜21:00で15分ごとに指定していますが、希望に応じて変更可能です。
+
+* 当日受取希望の場合、注文時間によって受取時間が自動で変更されます。
+
+(例) 当日の19:30に注文。受取時間の表示は（20:00, 20:15, 20:30, 20:45, 21:00）
+
+
+***
+
+## 設定画面
+
+![スクリーンショット 2021-12-07 14 12 17](https://user-images.githubusercontent.com/79826333/144970450-35a8d2a9-672d-49ac-83ed-d20ff291c49f.png)
+
+設定画面ではメールアドレス、パスワードの変更ができます
+
+
+***
+
+## 注文確認画面
+
+![スクリーンショット 2021-12-07 14 14 33](https://user-images.githubusercontent.com/79826333/144970687-6152d4dd-1329-46d7-9768-a8e4cc179765.png)
+
+現在注文中の内容を確認することができます

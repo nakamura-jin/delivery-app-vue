@@ -162,9 +162,6 @@ export default {
 
   },
   methods: {
-    // foodQuantity(getData) {
-    //   console.log(getData)
-    // },
     shopEditOrder(){
       //日付の型変更
       let date = this.today.split(/年|月|日/)

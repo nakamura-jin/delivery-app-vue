@@ -91,7 +91,6 @@
         .then(res => {
           this.menus = res.data.data
         })
-        // this.$store.dispatch('getMenu')
       }
     },
     computed: {
@@ -103,18 +102,6 @@
         return this.$store.state.user
       }
     },
-    // mounted() {
-    //   this.$store.dispatch('getMenu');
-    //   // if(user != false) {
-    //   //   this.$store.dispatch('getCartItems', { user_id: user.id});
-    //   //   console.log(user)
-    //   // }
-    //   // firebase.auth().onAuthStateChanged((user) => {
-    //   //   if (user) {
-    //   //     this.$store.dispatch('getCartItems', { user_id: user.id});
-    //   //   }
-    //   // })
-    // },
     created() {
       this.getMenu()
     }
